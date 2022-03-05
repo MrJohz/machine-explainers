@@ -1,1 +1,1 @@
-export { Wheel } from "./wheel";
+export { Encoding } from "./encoding";

@@ -1,10 +1,44 @@
-import { letterToPosition } from "./letter-utils";
-import { Wheel } from "./wheel";
+import { letterToRotation, rotationToLetter } from "./letter-utils";
+import { Encoding } from "./encoding";
+
+export class Wheel {
+  #forward: Encoding;
+  #backward: Encoding;
+  #notches: number[];
+
+  constructor(encoding: Encoding, notches: number[]) {
+    this.#forward = encoding;
+    this.#backward = encoding.inverted();
+    this.#notches = notches;
+  }
+
+  encodeForwards(index: number, rotation: number): number {
+    return this.#encodeWithRotation(index, rotation, this.#forward);
+  }
+
+  encodeBackwards(index: number, rotation: number): number {
+    return this.#encodeWithRotation(index, rotation, this.#backward);
+  }
+
+  #encodeWithRotation(
+    index: number,
+    rotation: number,
+    encoding: Encoding
+  ): number {
+    const letterOnWheel = (index + rotation) % 26;
+    const encodedLetterOnWheel = encoding.encode(letterOnWheel);
+    return (((encodedLetterOnWheel - rotation) % 26) + 26) % 26;
+  }
+
+  shouldStepNext(currentRotation: number): boolean {
+    return this.#notches.includes(currentRotation);
+  }
+}
 
 export class EnigmaMachine {
   #wheelBankSize: number;
   #wheels: ([Wheel, number] | undefined)[];
-  #reflector: Wheel | undefined;
+  #reflector: Encoding | undefined;
 
   constructor(numberOfWheels: number) {
     this.#wheelBankSize = numberOfWheels;
@@ -12,19 +46,27 @@ export class EnigmaMachine {
     this.#reflector = undefined;
   }
 
-  isValid(): boolean {
+  isReady(): boolean {
     return (
       this.#reflector !== undefined &&
       this.#wheels.every((each) => each !== undefined)
     );
   }
 
-  setWheel(position: number, wheel: Wheel, initialPosition: string): void {
+  setReflector(reflector: Encoding): void {
+    this.#reflector = reflector;
+  }
+
+  removeReflector(): void {
+    this.#reflector = undefined;
+  }
+
+  setWheel(position: number, wheel: Wheel, initialRotation: string): void {
     if (position > this.#wheelBankSize - 1 || position < 0) {
       throw new Error(`position must be between 0 and ${this.#wheelBankSize}`);
     }
 
-    this.#wheels[position] = [wheel, letterToPosition(initialPosition)];
+    this.#wheels[position] = [wheel, letterToRotation(initialRotation)];
   }
 
   removeWheel(position: number): void {
@@ -33,5 +75,40 @@ export class EnigmaMachine {
     }
 
     this.#wheels[position] = undefined;
+  }
+
+  type(letter: string): string {
+    if (letter.length > 0)
+      throw new Error("can only type one letter at a time");
+    if (!this.isReady())
+      throw new Error("can only type when ready, missing components");
+
+    let letterIndex = letterToRotation(letter);
+    let shouldStepNext = true; // always step on first rotation
+
+    for (const wheel of this.#wheels) {
+      if (!wheel) throw new Error("InternalError");
+
+      if (shouldStepNext) {
+        const previousRotation = wheel[1];
+        wheel[1] = (previousRotation + 1) % 26;
+        shouldStepNext = wheel[0].shouldStepNext(previousRotation);
+      }
+
+      letterIndex = wheel[0].encodeForwards(letterIndex, wheel[1]);
+    }
+
+    const reflector = this.#reflector;
+    if (!reflector) throw new Error("InternalError");
+    letterIndex = reflector.encode(letterIndex);
+
+    for (let idx = this.#wheels.length - 1; idx >= 0; idx--) {
+      const wheel = this.#wheels[idx];
+      if (!wheel) throw new Error("InternalError");
+
+      letterIndex = wheel[0].encodeBackwards(letterIndex, wheel[1]);
+    }
+
+    return rotationToLetter(letterIndex);
   }
 }
