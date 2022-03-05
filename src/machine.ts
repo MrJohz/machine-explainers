@@ -78,7 +78,7 @@ export class EnigmaMachine {
   }
 
   type(letter: string): string {
-    if (letter.length > 0)
+    if (letter.length !== 1)
       throw new Error("can only type one letter at a time");
     if (!this.isReady())
       throw new Error("can only type when ready, missing components");
