@@ -1,0 +1,15 @@
+{
+  "name": "libenigma",
+  "version": "0.1.0",
+  "description": "A package for running an enigma machine in your browser",
+  "source": "src/index.ts",
+  "main": "dist/main.cjs",
+  "module": "dist/main.mjs",
+  "types": "dist/types.d.ts",
+  "scripts": {
+    "build": "parcel build",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MPL-2.0"
+}
