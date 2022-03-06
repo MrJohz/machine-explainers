@@ -1,0 +1,16 @@
+{
+    "name": "index",
+    "version": "0.0.0",
+    "description": "The base site for the computer site thing",
+    "private": true,
+    "scripts": {
+      "serve": "parcel serve src/index.pug",
+      "build": "parcel build src/index.pug",
+      "test": "jest"
+    },
+    "author": "",
+    "license": "MPL-2.0",
+    "dependencies": {
+        "libenigma": "workspace:../libenigma"
+    }
+  }
