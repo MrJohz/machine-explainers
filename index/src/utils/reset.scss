@@ -13,6 +13,17 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p {
   margin: 0;
+}
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+}
+
+html {
+  font-size: 18px;
 }

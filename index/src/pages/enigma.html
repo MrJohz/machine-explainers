@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unbreakable Cyphers</title>
+    <script defer type="module" src="./enigma.ts"></script>
+    <link rel="stylesheet" href="./enigma.scss" />
+  </head>
+  <body>
+    <header>
+      <h1>Unbreakable Cyphers - How To Build An Enigma Machine</h1>
+    </header>
+    <article>
+      <p>
+        Encryption is surprisingly easy. All you need are some random numbers.
+      </p>
+      <p>
+        Let's say you and your friend have a book full of thousands and
+        thousands of random numbers, and you want to send them a message that
+        only they can read.
+      </p>
+      <p>
+        All you need to do is take each letter of your message, and each random
+        number, and add them together (or at least, move each letter through the
+        alphabet based on the random number.)
+      </p>
+      <div id="random-number-demo" class="demo" />
+    </article>
+  </body>
+</html>
