@@ -1,5 +1,7 @@
 block variables
     - let pageName = "";
+    - let scripts = [];
+    - let stylesheets = [];
 
 doctype html
 html(lang="en")
@@ -8,13 +10,18 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title
-            = pageName ? `${pageName} — ` : ''
+            =pageName ? `${pageName} — ` : ''
             | Old Machines
+        - for (const script of scripts)
+            script(src=script, defer, type="module")
+        - for (const stylesheet of stylesheets)
+            link(rel="stylesheet", href=stylesheet)
+        
     body
         header
-            h1 
-                = pageName ? `${pageName} — ` : ''
-                | Old Machines
+            block header
+                h1
+                    =pageName
 
         article
             block contents

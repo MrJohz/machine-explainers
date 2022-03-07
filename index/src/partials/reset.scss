@@ -1,0 +1,18 @@
+// The aim of this file is to provide a decent enough set of resets for this specific project
+// -> We don't need to include resets for things we won't need
+// -> We don't necessarily need to include resets for things we will modify anyway
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
