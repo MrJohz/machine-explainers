@@ -1,16 +1,21 @@
 {
-    "name": "index",
-    "version": "0.0.0",
-    "description": "The base site for the computer site thing",
-    "private": true,
-    "scripts": {
-      "serve": "parcel serve src/index.html",
-      "build": "parcel build src/index.html",
-      "test": "jest"
-    },
-    "author": "",
-    "license": "MPL-2.0",
-    "dependencies": {
-        "libenigma": "workspace:../libenigma"
-    }
+  "name": "index",
+  "version": "0.0.0",
+  "description": "The base site for the computer site thing",
+  "private": true,
+  "scripts": {
+    "serve": "parcel serve src/index.html",
+    "build": "parcel build src/index.html",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "libenigma": "workspace:../libenigma",
+    "librender": "workspace:../librender"
+  },
+  "devDependencies": {
+    "postcss": "^8.0.0",
+    "postcss-modules": "^4.3.0"
   }
+}

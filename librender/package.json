@@ -1,0 +1,15 @@
+{
+  "name": "librender",
+  "version": "0.0.0",
+  "description": "A package for rendering demos in your browser",
+  "source": "src/index.ts",
+  "main": "dist/main.cjs",
+  "module": "dist/main.mjs",
+  "types": "dist/types.d.ts",
+  "scripts": {
+    "build": "parcel build",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MPL-2.0"
+}

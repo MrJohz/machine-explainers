@@ -1,48 +1,58 @@
 @import "../utils/reset.scss";
 @import "./fonts/fonts.scss";
-
-$ACCENT_BACKGROUND: #cd977a;
-$ACCENT_ALT: #bda48c;
-$ACCENT_TEXT: #3b3734;
-$PAGE_BACKGROUND: #ece9e3;
-$PAGE_TEXT: #2c2c26;
-$PAGE_ALT: #d4d4d2;
+@import "./colors.scss";
 
 header {
-  width: calc(100vw - 4rem);
+  width: min($ARTICLE_WIDTH, 100vw - 2rem);
   margin: 2rem auto;
-  font-family: "Courier Prime", Courier, monospace;
+  font-family: $MONOSPACE_FONT;
   color: $ACCENT_TEXT;
   padding: 2rem;
   background-color: $ACCENT_BACKGROUND;
   text-align: center;
 
-  box-shadow: 0 0 3px 5px;
-  border-radius: 4px;
+  box-shadow: $BOX_SHADOW;
+  border-radius: $BORDER_RADIUS;
 }
 
 body {
   display: flex;
   flex-direction: column;
 
-  font-family: "Bitter", serif;
+  font-family: $REGULAR_FONT;
   background-color: $PAGE_ALT;
   color: $PAGE_TEXT;
 }
 
 article {
-  width: 32rem;
-  margin: 2rem auto 0;
-  padding: 2rem;
-  background-color: $PAGE_BACKGROUND;
-  box-shadow: 0 0 3px 5px $ACCENT_TEXT;
-  border-radius: 4px;
+  width: $ARTICLE_WIDTH;
+  margin: 2rem auto;
 
-  .encoded {
-    font-family: "Courier Prime", Courier, monospace;
+  .section {
+    padding: 2rem;
+    background-color: $PAGE_BACKGROUND;
+    box-shadow: $BOX_SHADOW;
+
+    &:first-child {
+      border-top-left-radius: $BORDER_RADIUS;
+      border-top-right-radius: $BORDER_RADIUS;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $BORDER_RADIUS;
+      border-bottom-right-radius: $BORDER_RADIUS;
+    }
+  }
+
+  code {
+    font-family: $MONOSPACE_FONT;
   }
 
   p:not(:first-child) {
     margin-top: 2rem;
+  }
+
+  .demo {
+    margin: 2rem calc(-0.5 * (100vw - $ARTICLE_WIDTH));
   }
 }

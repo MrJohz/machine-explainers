@@ -26,4 +26,11 @@ body {
 
 html {
   font-size: 18px;
+  overflow-x: hidden;
+}
+
+input,
+textarea {
+  padding: 0;
+  font-size: 1rem;
 }

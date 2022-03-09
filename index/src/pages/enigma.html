@@ -10,23 +10,41 @@
   </head>
   <body>
     <header>
-      <h1>Unbreakable Cyphers - How To Build An Enigma Machine</h1>
+      <h1>Unbreakable Cyphers:</h1>
+      <h2>How To Build An Engima&nbsp;Machine</h2>
     </header>
     <article>
-      <p>
-        Encryption is surprisingly easy. All you need are some random numbers.
-      </p>
-      <p>
-        Let's say you and your friend have a book full of thousands and
-        thousands of random numbers, and you want to send them a message that
-        only they can read.
-      </p>
-      <p>
-        All you need to do is take each letter of your message, and each random
-        number, and add them together (or at least, move each letter through the
-        alphabet based on the random number.)
-      </p>
-      <div id="random-number-demo" class="demo" />
+      <div class="section">
+        <p>
+          Here's the problem in a nutshell: human writing is really predictable.
+        </p>
+        <p>
+          The simplest possible cypher takes your text and rotates all the
+          letters through the alphabet by a fixed amount. We can call this
+          amount the key, and for the sake of convenience, our key will always
+          be a letter from <code>A</code>–<code>Z</code>. So if our key is
+          <code>C</code>, we'll rotate each letter from our input text by three
+          characters (because C is the third letter of the alphabet).
+        </p>
+        <p>
+          But this doesn't really change the input text all that much — sure,
+          all the letters are now different, but because we know what human
+          writing <em>ought</em> to look like, we can make some reasonable
+          guesses as to what the cypher text actually is.
+        </p>
+        <p>
+          Here's a demonstration. On the left is some text, and a key. On the
+          right is the output after we've passed the text through our very
+          simple cypher. Below that, are two charts — one shows the distribution
+          of letters in our original text, and the other shows how they're
+          distributed after being encrypted.
+        </p>
+        <p>
+          You can change the text and the key and see how the results change.
+        </p>
+      </div>
+      <div id="caeser-demo" class="demo"></div>
+      <div class="section"></div>
     </article>
   </body>
 </html>
