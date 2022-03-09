@@ -10,10 +10,10 @@ export function h<T extends keyof HTMLElementTagNameMap>(
 
   if (Array.isArray(attributes)) {
     derivedAttributes = {};
-    derivedChildren = attributes ?? [];
+    derivedChildren = (attributes ?? []).slice();
   } else {
     derivedAttributes = attributes ?? {};
-    derivedChildren = children ?? [];
+    derivedChildren = (children ?? []).slice();
   }
 
   const element = document.createElement(name);

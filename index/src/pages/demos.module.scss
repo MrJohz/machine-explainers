@@ -1,6 +1,7 @@
 @import "./colors.scss";
 
 $LITTLE_SHADOW: 0 0 2px 3px $ACCENT_TEXT;
+$LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 
 ._basicInput {
   font-family: $MONOSPACE_FONT;
@@ -52,7 +53,6 @@ $LITTLE_SHADOW: 0 0 2px 3px $ACCENT_TEXT;
   width: 3rem;
   font-size: 1.5rem;
   text-align: center;
-  font-family: $MONOSPACE_FONT;
   border-radius: 0;
 }
 
@@ -79,6 +79,10 @@ $LITTLE_SHADOW: 0 0 2px 3px $ACCENT_TEXT;
   & > *:not(:first-child) {
     margin-left: 2rem;
   }
+
+  &:not(:first-child) {
+    margin-top: 2rem;
+  }
 }
 
 .inputColumn {
@@ -93,4 +97,46 @@ $LITTLE_SHADOW: 0 0 2px 3px $ACCENT_TEXT;
   box-shadow: $LITTLE_SHADOW;
   padding: 0.5rem;
   margin: 0 auto 1rem;
+}
+
+.histogram {
+  position: relative;
+  height: 8rem;
+  width: 20rem;
+  border-bottom-left-radius: $BORDER_RADIUS;
+  border: solid 0 $ACCENT_TEXT;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  margin-bottom: 1.25rem;
+}
+
+.histogramBars {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: space-evenly;
+  align-items: flex-end;
+
+  & > * {
+    width: 0.25rem;
+    min-height: 5px;
+    background-color: $ACCENT_BACKGROUND;
+    box-shadow: $LITTLEST_SHADOW;
+  }
+}
+
+.histogramLabels {
+  background-color: $PAGE_ALT;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  font-family: $MONOSPACE_FONT;
+  font-size: 0.9rem;
+  padding-top: 0.25rem;
+  top: calc(100% + 2px);
+  width: 100%;
+  justify-content: space-evenly;
 }
