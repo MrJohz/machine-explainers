@@ -1,4 +1,4 @@
-import { h } from "librender";
+import { h, PropType } from "librender";
 import * as demos from "../demos.module.scss";
 import { charToIndex, getLastAsciiLetter, isAscii } from "./ascii-utils";
 
@@ -8,7 +8,7 @@ export type Component<T = {}> = HTMLElement & {
 
 export function SingleLetterInput(
   initialKey: string,
-  props?: Partial<HTMLInputElement>
+  props?: PropType<HTMLInputElement>
 ): Component<{ value: string }> {
   let rootElement: Component<{ value: string }>;
 
@@ -86,7 +86,7 @@ export function SingleLetterInput(
       {
         className: demos.singleLetterInputChangers,
         onclick: cycleInputUp,
-        ariaHidden: "true",
+        "aria-hidden": "true",
         tabIndex: -1,
       },
       ["+"]
@@ -97,7 +97,7 @@ export function SingleLetterInput(
       {
         className: demos.singleLetterInputChangers,
         onclick: cycleInputDown,
-        ariaHidden: "true",
+        "aria-hidden": "true",
         tabIndex: -1,
       },
       ["-"]
@@ -144,7 +144,7 @@ export function Histogram(): Histogram {
   }
 
   return {
-    element: h("div", { className: demos.histogram }, [
+    element: h("div", { className: demos.histogram, "aria-hidden": "true" }, [
       h("div", { className: demos.histogramBars }, bars),
       h("div", { className: demos.histogramLabels }, labels),
     ]),

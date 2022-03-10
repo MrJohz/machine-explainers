@@ -25,7 +25,6 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem;
 }
 
 .singleLetterInputChangers {
@@ -56,6 +55,12 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   border-radius: 0;
 }
 
+.keyGroup {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
 .inputBox {
   composes: _basicInput;
   width: 20rem;
@@ -72,13 +77,10 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 
 .inputRow {
   display: flex;
-  margin: 0 2em;
+  gap: 2em;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-
-  & > *:not(:first-child) {
-    margin-left: 2rem;
-  }
 
   &:not(:first-child) {
     margin-top: 2rem;
@@ -88,6 +90,8 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 .inputColumn {
   display: flex;
   flex-direction: column;
+
+  gap: 1rem;
 }
 
 .label {
@@ -96,7 +100,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   background-color: $ACCENT_BACKGROUND;
   box-shadow: $LITTLE_SHADOW;
   padding: 0.5rem;
-  margin: 0 auto 1rem;
+  margin: 0 auto;
 }
 
 .histogram {

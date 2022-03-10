@@ -1,8 +1,17 @@
 export type Child = null | string | HTMLElement | Child[];
 
+export type AriaAttributes = {
+  "aria-role": string;
+  "aria-hidden": string;
+  "aria-labelledby": string;
+};
+
+export type PropType<T extends HTMLElement = HTMLElement> = Partial<T> &
+  Partial<AriaAttributes>;
+
 export function h<T extends keyof HTMLElementTagNameMap>(
   name: T,
-  attributes?: Partial<HTMLElementTagNameMap[T]> | Child[],
+  attributes?: PropType<HTMLElementTagNameMap[T]> | Child[],
   children?: Child[]
 ): HTMLElementTagNameMap[T] {
   let derivedAttributes: Partial<HTMLElementTagNameMap[T]>;
@@ -18,13 +27,10 @@ export function h<T extends keyof HTMLElementTagNameMap>(
 
   const element = document.createElement(name);
   for (const [key, value] of Object.entries(derivedAttributes)) {
-    if (!(key in element)) {
-      console.warn(
-        `Skipping setting property ${key} on element ${name}, it is not a known property`
-      );
+    if (key.startsWith("aria-")) {
+      element.setAttribute(key, value);
       continue;
     }
-
     (element as any)[key] = value;
   }
 

@@ -69,25 +69,111 @@ function demoId(): (name: string) => string {
     h("div", [
       h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [
-          h("label", { className: demos.label, htmlFor: plaintextInput.id }, [
-            "Plaintext",
-          ]),
-          plaintextInput,
-        ]),
-        h("div", { className: demos.inputColumn }, [
           h("label", { className: demos.label, htmlFor: id("key") }, ["Key"]),
           keyInput,
         ]),
+      ]),
+      h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [
+          plaintextInput,
+          h("label", { className: demos.label, htmlFor: plaintextInput.id }, [
+            "Plaintext",
+          ]),
+          plaintextHistogram.element,
+        ]),
+        h("div", { className: demos.inputColumn }, [
+          cypherInput,
           h("label", { className: demos.label, htmlFor: cypherInput.id }, [
             "Cyphertext",
           ]),
-          cypherInput,
+          cyphertextHistogram.element,
+        ]),
+      ]),
+    ])
+  );
+})();
+
+(() => {
+  const id = demoId();
+
+  const keyInputs = [
+    SingleLetterInput("C", { "aria-labelledby": id("key") }),
+    SingleLetterInput("A", { "aria-labelledby": id("key") }),
+    SingleLetterInput("R", { "aria-labelledby": id("key") }),
+  ];
+  const plaintextInput = h("textarea", {
+    id: id("plain"),
+    className: `${demos.inputBox}`,
+    value: TEXT,
+  });
+  const cypherInput = h("textarea", {
+    id: id("cypher"),
+    readOnly: true,
+    className: `${demos.inputBox}`,
+  });
+
+  const plaintextHistogram = Histogram();
+  const cyphertextHistogram = Histogram();
+
+  function encrypt() {
+    let keyIndex = 0;
+    const keyCodes = keyInputs.map(
+      (input) => (input.dataset.value || "A").charCodeAt(0) - 65
+    );
+
+    const result = [];
+    for (const char of plaintextInput.value) {
+      if (!isAscii(char)) {
+        result.push(char);
+        continue;
+      }
+
+      const charCode = char.toUpperCase().charCodeAt(0);
+      const newCode = charCode + keyCodes[keyIndex];
+      keyIndex = (keyIndex + 1) % keyCodes.length;
+
+      if (newCode > 90) {
+        result.push(String.fromCharCode(newCode - 26));
+      } else {
+        result.push(String.fromCharCode(newCode));
+      }
+    }
+
+    cypherInput.value = result.join("");
+    plaintextHistogram.updateHeight(plaintextInput.value);
+    cyphertextHistogram.updateHeight(cypherInput.value);
+  }
+
+  plaintextInput.addEventListener("input", encrypt);
+  for (const keyInput of keyInputs) {
+    keyInput.addEventListener("change", encrypt);
+  }
+  encrypt();
+
+  render(
+    document.getElementById("long-key-demo")!,
+    h("div", [
+      h("div", { className: demos.inputRow }, [
+        h("div", { className: demos.inputColumn }, [
+          h("label", { id: id("key"), className: demos.label }, ["Key"]),
+          h("div", { className: demos.keyGroup }, keyInputs),
         ]),
       ]),
       h("div", { className: demos.inputRow }, [
-        plaintextHistogram.element,
-        cyphertextHistogram.element,
+        h("div", { className: demos.inputColumn }, [
+          plaintextInput,
+          h("label", { className: demos.label, htmlFor: plaintextInput.id }, [
+            "Plaintext",
+          ]),
+          plaintextHistogram.element,
+        ]),
+        h("div", { className: demos.inputColumn }, [
+          cypherInput,
+          h("label", { className: demos.label, htmlFor: cypherInput.id }, [
+            "Cyphertext",
+          ]),
+          cyphertextHistogram.element,
+        ]),
       ]),
     ])
   );
