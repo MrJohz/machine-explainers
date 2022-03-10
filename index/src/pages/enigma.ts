@@ -68,6 +68,12 @@ function demoId(): (name: string) => string {
     document.getElementById("caeser-demo")!,
     h("div", [
       h("div", { className: demos.inputRow }, [
+        h("p", { className: demos.helpText }, [
+          "These sections are interactive!  You can put whatever text you want in ",
+          "the input text boxes, and watch it get encrypted into the cyphertext.  ",
+          "You can also change the key by typing in the box on the left, or by ",
+          "using the buttons or the arrow keys.",
+        ]),
         h("div", { className: demos.inputColumn }, [
           h("label", { className: demos.label, htmlFor: id("key") }, ["Key"]),
           keyInput,
@@ -96,10 +102,12 @@ function demoId(): (name: string) => string {
 (() => {
   const id = demoId();
 
+  const INPUT_LETTERS = ["C", "A", "R", "P", "E", "T", "S"];
+
   const keyInputs = [
-    SingleLetterInput("C", { "aria-labelledby": id("key") }),
-    SingleLetterInput("A", { "aria-labelledby": id("key") }),
-    SingleLetterInput("R", { "aria-labelledby": id("key") }),
+    SingleLetterInput(INPUT_LETTERS[0], { "aria-labelledby": id("key") }),
+    SingleLetterInput(INPUT_LETTERS[1], { "aria-labelledby": id("key") }),
+    SingleLetterInput(INPUT_LETTERS[2], { "aria-labelledby": id("key") }),
   ];
   const plaintextInput = h("textarea", {
     id: id("plain"),
@@ -114,6 +122,13 @@ function demoId(): (name: string) => string {
 
   const plaintextHistogram = Histogram();
   const cyphertextHistogram = Histogram();
+
+  const keyInputsContainer = h("div", { className: demos.keyGroup }, keyInputs);
+
+  const addKeyButton = h("button", { className: demos.button }, ["Add Key"]);
+  const removeKeyButton = h("button", { className: demos.button }, [
+    "Remove Key",
+  ]);
 
   function encrypt() {
     let keyIndex = 0;
@@ -148,6 +163,26 @@ function demoId(): (name: string) => string {
   for (const keyInput of keyInputs) {
     keyInput.addEventListener("change", encrypt);
   }
+
+  addKeyButton.addEventListener("click", () => {
+    if (keyInputs.length === INPUT_LETTERS.length) return;
+
+    const newInput = SingleLetterInput(INPUT_LETTERS[keyInputs.length], {
+      "aria-labelledby": id("key"),
+    });
+    newInput.addEventListener("change", encrypt);
+    keyInputs.push(newInput);
+    keyInputsContainer.appendChild(newInput);
+    encrypt();
+  });
+
+  removeKeyButton.addEventListener("click", () => {
+    if (keyInputs.length === 1) return;
+    const oldInput = keyInputs.pop();
+    oldInput?.remove();
+    encrypt();
+  });
+
   encrypt();
 
   render(
@@ -156,8 +191,13 @@ function demoId(): (name: string) => string {
       h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [
           h("label", { id: id("key"), className: demos.label }, ["Key"]),
-          h("div", { className: demos.keyGroup }, keyInputs),
+          keyInputsContainer,
         ]),
+        h(
+          "div",
+          { className: `${demos.inputColumn} ${demos.addButtonColumn}` },
+          [addKeyButton, removeKeyButton]
+        ),
       ]),
       h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [

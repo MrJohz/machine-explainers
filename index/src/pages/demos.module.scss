@@ -13,7 +13,6 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 
 ._basicButton {
   font-family: $MONOSPACE_FONT;
-  font-size: 1.5rem;
   background-color: $ACCENT_ALT;
   box-shadow: $LITTLE_SHADOW;
   border: none;
@@ -29,6 +28,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 
 .singleLetterInputChangers {
   composes: _basicButton;
+  font-size: 1.5rem;
   width: calc(3rem + 4px);
   height: 1.5rem;
   z-index: 1;
@@ -59,11 +59,13 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  justify-content: center;
+  min-width: min(20rem, 100vw - 1rem);
 }
 
 .inputBox {
   composes: _basicInput;
-  width: min(20rem, 100vw - 1rem);
+  width: min(20rem, 100vw - 4rem);
   margin: 0 auto;
   height: 8rem;
   padding: 0.5rem;
@@ -145,4 +147,18 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   top: calc(100% + 2px);
   width: 100%;
   justify-content: space-evenly;
+}
+
+.helpText {
+  width: min(20rem, 100vw - 2rem);
+  text-align: justify;
+}
+
+.button {
+  composes: _basicButton;
+  padding: 0.25rem 0.5rem;
+}
+
+.addButtonColumn {
+  align-self: center;
 }

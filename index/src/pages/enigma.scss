@@ -33,6 +33,14 @@ article {
     background-color: $PAGE_BACKGROUND;
     box-shadow: $BOX_SHADOW;
 
+    p:not(:first-child) {
+      margin-top: 2rem;
+    }
+
+    code {
+      font-family: $MONOSPACE_FONT;
+    }
+
     &:first-child {
       border-top-left-radius: $BORDER_RADIUS;
       border-top-right-radius: $BORDER_RADIUS;
@@ -42,14 +50,6 @@ article {
       border-bottom-left-radius: $BORDER_RADIUS;
       border-bottom-right-radius: $BORDER_RADIUS;
     }
-  }
-
-  code {
-    font-family: $MONOSPACE_FONT;
-  }
-
-  p:not(:first-child) {
-    margin-top: 2rem;
   }
 
   .demo {
