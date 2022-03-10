@@ -55,4 +55,10 @@ article {
   .demo {
     margin: 2rem calc(-0.5 * (100vw - $ARTICLE_WIDTH));
   }
+
+  @media screen and (max-width: (($ARTICLE_BASE_WIDTH / 1rem) * $BASE_FONT_SIZE)) {
+    .section {
+      padding: 1rem;
+    }
+  }
 }

@@ -8,7 +8,11 @@ $PAGE_ALT: #d4d4d2;
 $BOX_SHADOW: 0 0 3px 5px $ACCENT_TEXT;
 
 $BORDER_RADIUS: 4px;
-$ARTICLE_WIDTH: min(32rem, 100vw - 2rem);
+$ARTICLE_BASE_WIDTH: 42rem;
+$ARTICLE_WIDTH: min($ARTICLE_BASE_WIDTH, 100vw - 1rem);
 
 $MONOSPACE_FONT: "Courier Prime", Courier, monospace;
 $REGULAR_FONT: "Bitter", serif;
+
+// Note: this is also set in reset.scss, so be aware if you change it here!
+$BASE_FONT_SIZE: 18px;

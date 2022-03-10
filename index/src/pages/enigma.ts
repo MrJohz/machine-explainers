@@ -75,17 +75,17 @@ function demoId(): (name: string) => string {
       ]),
       h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [
-          plaintextInput,
           h("label", { className: demos.label, htmlFor: plaintextInput.id }, [
             "Plaintext",
           ]),
+          plaintextInput,
           plaintextHistogram.element,
         ]),
         h("div", { className: demos.inputColumn }, [
-          cypherInput,
           h("label", { className: demos.label, htmlFor: cypherInput.id }, [
             "Cyphertext",
           ]),
+          cypherInput,
           cyphertextHistogram.element,
         ]),
       ]),
@@ -161,17 +161,17 @@ function demoId(): (name: string) => string {
       ]),
       h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [
-          plaintextInput,
           h("label", { className: demos.label, htmlFor: plaintextInput.id }, [
             "Plaintext",
           ]),
+          plaintextInput,
           plaintextHistogram.element,
         ]),
         h("div", { className: demos.inputColumn }, [
-          cypherInput,
           h("label", { className: demos.label, htmlFor: cypherInput.id }, [
             "Cyphertext",
           ]),
+          cypherInput,
           cyphertextHistogram.element,
         ]),
       ]),

@@ -135,7 +135,7 @@ export function Histogram(): Histogram {
 
     for (let idx = 0; idx < 26; idx++) {
       const count = counts[idx];
-      const height = `${(count / max) * 100}%`;
+      const height = `${(count / max) * 8 * 18}px`;
       bars[idx].style.height = height;
       // because the counts array is reused between calls to `updateHeight`,
       // we need to make sure we reset it after every call
