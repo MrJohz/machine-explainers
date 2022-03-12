@@ -46,7 +46,7 @@ function demoId(): (name: string) => string {
       }
 
       const charCode = char.toUpperCase().charCodeAt(0);
-      const newCode = charCode + (keyCode - 65);
+      const newCode = charCode + (keyCode - 64);
 
       if (newCode > 90) {
         result.push(String.fromCharCode(newCode - 26));
@@ -133,7 +133,7 @@ function demoId(): (name: string) => string {
   function encrypt() {
     let keyIndex = 0;
     const keyCodes = keyInputs.map(
-      (input) => (input.dataset.value || "A").charCodeAt(0) - 65
+      (input) => (input.dataset.value || "A").charCodeAt(0) - 64
     );
 
     const result = [];
