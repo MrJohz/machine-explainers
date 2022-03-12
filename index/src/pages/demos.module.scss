@@ -86,7 +86,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   justify-content: center;
 
   &:not(:first-child) {
-    margin-top: 2rem;
+    margin-top: 4rem;
   }
 }
 
@@ -114,6 +114,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   border: solid 0 $ACCENT_TEXT;
   border-bottom-width: 2px;
   border-left-width: 2px;
+  margin-top: 2rem;
   margin-bottom: 1.25rem;
 }
 
