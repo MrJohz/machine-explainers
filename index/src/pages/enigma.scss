@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../utils/reset.scss";
 @import "./fonts/fonts.scss";
 @import "./colors.scss";
@@ -56,7 +58,7 @@ article {
     margin: 4rem calc(-0.5 * (100vw - $ARTICLE_WIDTH));
   }
 
-  @media screen and (max-width: (($ARTICLE_BASE_WIDTH / 1rem) * $BASE_FONT_SIZE)) {
+  @media screen and (max-width: (math.div($ARTICLE_BASE_WIDTH , 1rem) * $BASE_FONT_SIZE)) {
     .section {
       padding: 1rem;
     }
