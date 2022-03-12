@@ -6,14 +6,15 @@ export function isAscii(char: string) {
   return false;
 }
 
-export function getLastAsciiLetter(text: string): string {
+export function getLastAsciiLetter(text: string, prevLetter: string): string {
+  text = text.replace(prevLetter, "");
   for (let idx = text.length - 1; idx >= 0; idx--) {
     if (isAscii(text[idx])) {
       return text[idx].toUpperCase();
     }
   }
 
-  return "";
+  return prevLetter;
 }
 
 export function charToIndex(char: string): number | null {

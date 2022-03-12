@@ -43,7 +43,11 @@ export function SingleLetterInput(
       value: initialKey.toUpperCase(),
       className: demos.singleLetterInput,
       oninput: () => {
-        const lastValidLetter = getLastAsciiLetter(input.value);
+        const lastValidLetter = getLastAsciiLetter(
+          input.value,
+          rootElement.dataset.value
+        );
+        console.log(rootElement.dataset.value, input.value, lastValidLetter);
         if (input.value === lastValidLetter) return;
 
         input.value = lastValidLetter;
