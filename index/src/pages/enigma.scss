@@ -30,6 +30,36 @@ article {
   width: $ARTICLE_WIDTH;
   margin: 2rem auto;
 
+  hr {
+    position: relative;
+    &,
+    &::before,
+    &::after {
+      width: 4rem;
+      display: block;
+      background-color: $PAGE_ALT;
+      height: 1.5rem;
+      border: none;
+      box-shadow: inset $BOX_SHADOW;
+      border-radius: $BORDER_RADIUS;
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: "";
+    }
+
+    &::before {
+      right: 8rem;
+    }
+
+    &::after {
+      left: 8rem;
+    }
+    margin: 2.25rem auto;
+  }
+
   .section {
     padding: 2rem;
     background-color: $PAGE_BACKGROUND;

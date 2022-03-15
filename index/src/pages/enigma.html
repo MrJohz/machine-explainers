@@ -15,66 +15,126 @@
     </header>
     <article>
       <div class="section">
+        <p>It was 1914, and the Dutch had a problem.</p>
         <p>
-          Here's the problem in a nutshell: human writing is really predictable.
+          A new pan-European war had just broken out, a war that would become
+          known as the Great War for its global scale and the incalculable
+          impact on the lives of its participants. The Netherlands, with a
+          reasonable amount of foresight, decided to opt out, and declared
+          themselves neutral.
         </p>
         <p>
-          The simplest possible cypher takes your text and rotates all the
-          letters through the alphabet by a fixed amount. We can call this
-          amount the key, and for the sake of convenience, our key will always
-          be a letter from <code>A</code>–<code>Z</code>. So if our key is
-          <code>C</code>, we'll rotate each letter from our input text by three
-          characters (because C is the third letter of the alphabet).
+          Unfortunately, neutrality in war is not a magic charm, and the
+          Netherlands quickly found themselves spending a lot of effort
+          defending their claim. Leaving aside the various accidental attacks —
+          much of the Northern European countryside looks the same to a bomber
+          flying 3 kilometers up in the air — the Netherlands also had to defend
+          against more deliberate intrusions into their sovereign waters.
         </p>
         <p>
-          But this doesn't really change the input text all that much — sure,
-          all the letters are now different, but because we know what human
-          writing <em>ought</em> to look like, we can make some reasonable
-          guesses as to what the cypher text actually is.
+          These problems weren't just limited to the homeland either — far away,
+          in the Dutch East Indies (now known as Indonesia), the Dutch claim of
+          neutrality was also being tested. A Dutch squadron patrolled the
+          archipelago, but to avoid international incidents that could threaten
+          the Netherlands' unaligned status, ships had to radio in to colonial
+          headquarters before each engagement.
         </p>
         <p>
-          Here's a demonstration. On the left is some text, and a key. On the
-          right is the output after we've passed the text through our very
-          simple cypher. Below that, are two charts — one shows the distribution
-          of letters in our original text, and the other shows how they're
-          distributed after being encrypted.
+          To preserve secrecy and speed up communications on what was
+          essentially an open channel, ships had been issued with codebooks —
+          books filled with pages and pages of pre-arranged phrases and words,
+          each assigned a different (ideally secret) code. Unfortunately, this
+          was less than ideal: in peacetime, the secret codes were often far
+          less closely guarded, forcing the Dutch Navy to publish a "secret
+          appendix" of even more secret codes. Moreover, these books were rarely
+          designed to deal with the complexities faced by the squadron in
+          colonies, leaving them floundering and struggling to communicate.
         </p>
         <p>
-          You can change the text and the key and see how the results change.
+          Into this situation stepped Theo van Hengel and R.P.C. Spengler, two
+          Dutch naval officers with a passion for designing torpedoes. In early
+          1915, the two men started work on an entirely new innovation in
+          cryptography: the rotary cypher.
+        </p>
+
+        <hr />
+
+        <p>
+          Here's the problem with cyphers in a nutshell: human writing is very
+          predictable. In a block of English text, for example, the letter "e"
+          is most common, followed by "t" and "a". Letters like "a" and "o" are
+          more common at the start of words, but "s" and "d" often end up at the
+          end. The challenge of encipherment is to create a cypher where,
+          however predictable the input is, the output appears to be completely
+          random.
+        </p>
+        <p>
+          Consider the demo below. It's a very simple cypher where we take all
+          the letters of a text and rotate them through the alphabet by a fixed
+          amount (the key). They key will be a letter from <code>A</code> to
+          <code>Z</code> — if the key is <code>A</code>, we'll move each
+          character along by one letter, if it's <code>B</code>, two, and so on.
+        </p>
+        <p>
+          Below each text input is a histogram showing the letter frequencies in
+          the input and output. You can change the input text and the key, and
+          watch how this changes both the output text, and the two histograms.
         </p>
       </div>
       <div id="caeser-demo" class="demo"></div>
       <div class="section">
         <p>
-          Here's the problem in a nutshell: human writing is really predictable.
+          As you can see, the output is just as predictable as the input. If the
+          input follows the normal rules of English ("e" as the most common
+          letter, "s" at the ends of words, etc), then the output will follow
+          the same rules, just shifted along in the alphabet a bit.
         </p>
         <p>
-          The simplest possible cypher takes your text and rotates all the
-          letters through the alphabet by a fixed amount. We can call this
-          amount the key, and for the sake of convenience, our key will always
-          be a letter from <code>A</code>–<code>Z</code>. So if our key is
-          <code>C</code>, we'll rotate each letter from our input text by three
-          characters (because C is the third letter of the alphabet).
+          One solution to this is to use more keys (or rather, have a key made
+          of multiple letters). For example, with three-letter key, we can split
+          the plaintext into chunks of three letters. Each letter in that chunk
+          gets encrypted with a different letter of the key.
         </p>
         <p>
-          But this doesn't really change the input text all that much — sure,
-          all the letters are now different, but because we know what human
-          writing <em>ought</em> to look like, we can make some reasonable
-          guesses as to what the cypher text actually is.
-        </p>
-        <p>
-          Here's a demonstration. On the left is some text, and a key. On the
-          right is the output after we've passed the text through our very
-          simple cypher. Below that, are two charts — one shows the distribution
-          of letters in our original text, and the other shows how they're
-          distributed after being encrypted.
-        </p>
-        <p>
-          You can change the text and the key and see how the results change.
+          In the demo below, you can see this at work. With keys of different
+          lengths, you can see how the distribution changes. With very short
+          keys (one or two letters), the patterns are still mostly recognisable,
+          but with a five- or six-letter key, the pattern is harder to
+          recognise.
         </p>
       </div>
       <div id="long-key-demo" class="demo"></div>
-      <div class="section"></div>
+      <div class="section">
+        <p>
+          That said, harder to recognise does not mean impossible! For an
+          example of this, consider the key <code>ENI</code>. The
+          <code>I</code> means that every third letter in the plaintext has been
+          rotated nine places — "a"s are now "j"s, "b"s are now "k"s, etc.
+        </p>
+        <p>
+          We know that "e" is the most common letter, and "e" +
+          <code>I</code> is "n". If you look at the cyphertext histogram, you'll
+          see that "n" is probably taller than both of its neighbours. Although
+          using a longer key has helped scramble the letters, there are still
+          some recognisable patterns. If you play around with this demo a bit
+          more, you might spot some other patterns that show up regularly.
+        </p>
+
+        <hr />
+
+        <p>Section two -> Black House</p>
+      </div>
+      <div class="section">
+        <h2>Citations</h2>
+        <ul>
+          <li>
+            Karl de Leeuw (2003) THE DUTCH INVENTION OF THE ROTOR MACHINE,
+            1915–1923, Cryptologia, 27:1, 73-94, DOI: 10.1080/0161-110391891775
+          </li>
+
+          <li>https://www.jstor.org/stable/j.ctt46mvb2</li>
+        </ul>
+      </div>
     </article>
   </body>
 </html>

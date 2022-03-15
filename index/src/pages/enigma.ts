@@ -68,11 +68,11 @@ function demoId(): (name: string) => string {
     document.getElementById("caeser-demo")!,
     h("div", [
       h("div", { className: demos.inputRow }, [
-        h("p", { className: demos.helpText }, [
-          "These sections are interactive!  You can put whatever text you want in ",
-          "the input text boxes, and watch it get encrypted into the cyphertext.  ",
-          "You can also change the key by typing in the box on the left, or by ",
-          "using the buttons or the arrow keys.",
+        h("div", { className: demos.helpText }, [
+          h("p", ["Use the buttons or your keyboard to change the key input."]),
+          h("p", [
+            "Change the plaintext to see how the cyphertext and letter distributions change.",
+          ]),
         ]),
         h("div", { className: demos.inputColumn }, [
           h("label", { className: demos.label, htmlFor: id("key") }, ["Key"]),
@@ -102,7 +102,7 @@ function demoId(): (name: string) => string {
 (() => {
   const id = demoId();
 
-  const INPUT_LETTERS = ["C", "A", "R", "P", "E", "T", "S"];
+  const INPUT_LETTERS = ["E", "N", "I", "G", "M", "A"];
 
   const keyInputs = [
     SingleLetterInput(INPUT_LETTERS[0], { "aria-labelledby": id("key") }),
