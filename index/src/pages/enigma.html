@@ -11,7 +11,7 @@
   <body>
     <header>
       <h1>Unbreakable Cyphers:</h1>
-      <h2>How To Build An Engima&nbsp;Machine</h2>
+      <h2>How To Build An Enigma&nbsp;Machine</h2>
     </header>
     <article>
       <div class="section">
@@ -28,7 +28,7 @@
           Netherlands quickly found themselves spending a lot of effort
           defending their claim. Leaving aside the various accidental attacks —
           much of the Northern European countryside looks the same to a bomber
-          flying 3 kilometers up in the air — the Netherlands also had to defend
+          flying 3 kilometres up in the air — the Netherlands also had to defend
           against more deliberate intrusions into their sovereign waters.
         </p>
         <p>
@@ -86,7 +86,7 @@
         <p>
           As you can see, the output is just as predictable as the input. If the
           input follows the normal rules of English ("e" as the most common
-          letter, "s" at the ends of words, etc), then the output will follow
+          letter, "s" at the ends of words, etc.), then the output will follow
           the same rules, just shifted along in the alphabet a bit.
         </p>
         <p>
@@ -120,9 +120,53 @@
           more, you might spot some other patterns that show up regularly.
         </p>
 
+        <ul>
+          <li>
+            What happens when you have repeated words, or even letters, in the
+            plaintext?
+          </li>
+          <li>Given the cyphertext</li>
+        </ul>
+
         <hr />
 
-        <p>Section two -> Black House</p>
+        <p>
+          Spengler and Van Hengel had two key innovations over the simpler
+          cyphers from before. The first was simple, and not entirely new.
+          Rather than use a single, repeating key, they would instead generate
+          the key as the message was being encoded. If you could design that
+          process in such a way, that each new letter of the key looked quite
+          random to the outside observer, but could in fact be determined
+          consistently by both the sender and the receiver, then the message
+          would be almost completely uncrackable.
+        </p>
+        <p>
+          However, generating such a complicated key by hand would be a slow
+          process, and, given the tense political situation in the Dutch East
+          Indies, speed was very much of the essence. This was the second — and
+          significantly more important — innovation: to provide a machine that
+          would do the generation for you.
+        </p>
+        <p>
+          The core idea of the machine they came up with is simple: consider a
+          wheel split up into 24 segments. Give each segment an input letter,
+          <code>A</code> to <code>Z</code>, and wire everything up so that when
+          I type "a", it goes to the <code>A</code> segment of the wheel.
+        </p>
+        <p>
+          Inside the wheel, you then wire the input of each segment to the
+          output of a different segment. For example, the <code>A</code> segment
+          might carry the signal to the <code>S</code> segment. Now when I type
+          "a", it goes into the <code>A</code> segment, and out of the
+          <code>S</code> segment, giving me the result "s".
+        </p>
+        <p>
+          Here's the trick: now, every time I type a letter, first rotate the
+          wheel by one place. Now, when I type "a", it'll instead go to the "b"
+          segment. And if I type "a" again, the signal will go to the "c"
+          segment, and so on. But because each of the input segments has a
+          different output, the outputs will also be jumbled up.
+        </p>
       </div>
       <div class="section">
         <h2>Citations</h2>
@@ -133,6 +177,7 @@
           </li>
 
           <li>https://www.jstor.org/stable/j.ctt46mvb2</li>
+          <li>The Codebreakers — David Kahn</li>
         </ul>
       </div>
     </article>
