@@ -8,4 +8,5 @@
 - [ ] Cipher vs Cypher
 - [ ] van vs Van Hengel
 - [ ] Fix different blacks?
-- [ ] 404 page
+- [ ] Homepage
+- [ ] 404 Page
