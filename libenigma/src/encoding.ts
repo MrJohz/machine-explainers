@@ -1,6 +1,6 @@
 import { letterToRotation } from "./letter-utils";
 
-export function reverseEncoding(encoding: number[]): number[] {
+export function reverseEncoding(encoding: ReadonlyArray<number>): number[] {
   if (encoding.length !== 26)
     throw new Error("Encoding array must be 26 elements long");
 
@@ -14,7 +14,7 @@ export function reverseEncoding(encoding: number[]): number[] {
 }
 
 export class Encoding {
-  #encoding: number[];
+  #encoding: ReadonlyArray<number>;
 
   constructor(encoding: number[]) {
     this.#encoding = encoding;
@@ -26,6 +26,14 @@ export class Encoding {
 
   static fromString(encoding: string) {
     return new Encoding(Array.from(encoding, letterToRotation));
+  }
+
+  static get ROTOR_I(): Encoding {
+    return Encoding.fromString("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+  }
+
+  static get ROTOR_II(): Encoding {
+    return Encoding.fromString("AJDKSIRUXBLHWTMCQGZNPYFVOE");
   }
 
   encode(index: number): number {

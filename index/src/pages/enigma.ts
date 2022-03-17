@@ -1,9 +1,10 @@
 import { h, render } from "librender";
+import { Encoding, Wheel as EnigmaWheel } from "libenigma";
 
 import * as demos from "./demos.module.scss";
 
 import { isAscii } from "./js/ascii-utils";
-import { Histogram, SingleLetterInput } from "./js/components";
+import { Histogram, SingleLetterInput, Wheel } from "./js/components";
 
 const TEXT =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
@@ -214,6 +215,20 @@ function demoId(): (name: string) => string {
           cypherInput,
           cyphertextHistogram.element,
         ]),
+      ]),
+    ])
+  );
+})();
+
+(() => {
+  const id = demoId();
+
+  render(
+    document.getElementById("single-wheel-demo")!,
+    h("div", [
+      h("div", { className: demos.inputRow }, [
+        "oh no!",
+        Wheel(new EnigmaWheel(Encoding.ROTOR_I, [])).element,
       ]),
     ])
   );

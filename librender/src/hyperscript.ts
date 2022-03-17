@@ -1,10 +1,56 @@
-export type Child = null | string | HTMLElement | Child[];
+export type Child = null | string | HTMLElement | SVGElement | Child[];
 
 export type AriaAttributes = {
   "aria-role": string;
   "aria-hidden": string;
   "aria-labelledby": string;
 };
+
+export type SvgPropType<T extends SVGElement = SVGElement> = {
+  [K in keyof T]?: string;
+};
+
+export function hs<T extends keyof SVGElementTagNameMap>(
+  name: T,
+  attributes?: SvgPropType<SVGElementTagNameMap[T]> | Child[],
+  children?: Child[]
+): SVGElementTagNameMap[T] {
+  let derivedAttributes: SvgPropType<SVGElementTagNameMap[T]>;
+  let derivedChildren: Child[];
+
+  if (Array.isArray(attributes)) {
+    derivedAttributes = {};
+    derivedChildren = (attributes ?? []).slice();
+  } else {
+    derivedAttributes = attributes ?? {};
+    derivedChildren = (children ?? []).slice();
+  }
+
+  const element = document.createElementNS("http://www.w3.org/2000/svg", name);
+  for (const [key, value] of Object.entries(derivedAttributes)) {
+    if (key === "className") {
+      element.setAttribute("class", value);
+      continue;
+    }
+    element.setAttribute(key, value);
+  }
+
+  while (derivedChildren.length) {
+    const child = derivedChildren.shift();
+
+    if (child == null) {
+      continue;
+    } else if (typeof child === "string") {
+      element.appendChild(document.createTextNode(child));
+    } else if (Array.isArray(child)) {
+      derivedChildren.unshift(...child);
+    } else {
+      element.appendChild(child);
+    }
+  }
+
+  return element;
+}
 
 export type PropType<T extends HTMLElement = HTMLElement> = Partial<T> &
   Partial<AriaAttributes>;

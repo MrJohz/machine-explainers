@@ -12,20 +12,22 @@ export class Wheel {
     this.#notches = notches;
   }
 
-  encodeForwards(index: number, rotation: number): number {
+  encodeForwards(index: number | string, rotation: number): number {
     return this.#encodeWithRotation(index, rotation, this.#forward);
   }
 
-  encodeBackwards(index: number, rotation: number): number {
+  encodeBackwards(index: number | string, rotation: number): number {
     return this.#encodeWithRotation(index, rotation, this.#backward);
   }
 
   #encodeWithRotation(
-    index: number,
+    index: number | string,
     rotation: number,
     encoding: Encoding
   ): number {
-    const letterOnWheel = (index + rotation) % 26;
+    const realIndex =
+      typeof index === "string" ? letterToRotation(index) : index;
+    const letterOnWheel = (realIndex + rotation) % 26;
     const encodedLetterOnWheel = encoding.encode(letterOnWheel);
     return (((encodedLetterOnWheel - rotation) % 26) + 26) % 26;
   }

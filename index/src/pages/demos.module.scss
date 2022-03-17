@@ -170,3 +170,13 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 .addButtonColumn {
   align-self: center;
 }
+
+.wheel {
+  height: calc(($ARTICLE_WIDTH) / 4 * 3);
+  width: calc(($ARTICLE_WIDTH) / 4 * 3);
+  border-radius: 100%;
+  background-color: $ACCENT_ALT;
+  box-shadow: $BOX_SHADOW;
+  font-family: $MONOSPACE_FONT;
+  overflow: visible;
+}

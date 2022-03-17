@@ -1,6 +1,7 @@
-import { h, PropType } from "librender";
+import { h, hs, PropType } from "librender";
+import { Wheel as EnigmaWheel } from "libenigma";
 import * as demos from "../demos.module.scss";
-import { charToIndex, getLastAsciiLetter, isAscii } from "./ascii-utils";
+import { charToIndex, getLastAsciiLetter } from "./ascii-utils";
 
 export type Component<T = {}> = HTMLElement & {
   dataset: HTMLElement["dataset"] & T;
@@ -153,5 +154,106 @@ export function Histogram(): Histogram {
       h("div", { className: demos.histogramLabels }, labels),
     ]),
     updateHeight,
+  };
+}
+
+function colorCycle(colors: string[]): () => string {
+  let state = 87178291199 % 479001599;
+  let lastColor = colors[0];
+
+  return () => {
+    let nextColor = colors[state % colors.length];
+    while (nextColor === lastColor && state % 3 !== 0) {
+      state = (state * 87178291199) % 479001599;
+      nextColor = colors[state % colors.length];
+    }
+
+    state = (state * 87178291199) % 479001599;
+    lastColor = nextColor;
+    return nextColor;
+  };
+}
+
+export function Wheel(initialMapping: EnigmaWheel) {
+  const nextBackgroundColor = colorCycle([
+    "#bda48c",
+    "#c6b19c",
+    "#ae8f72",
+    "#b69a7f",
+  ]);
+  const halfAngle = 360 / 26 / 2;
+  const angle = 360 / 26;
+
+  const segments = [];
+  const innerLabels = [];
+  const outerLabels = [];
+  const arrows = [];
+
+  for (let idx = 0; idx < 26; idx += 1) {
+    const angleLeft = 180 - angle * idx - halfAngle;
+    const xLeft = Math.sin((Math.PI * 2 * angleLeft) / 360);
+    const yLeft = Math.cos((Math.PI * 2 * angleLeft) / 360);
+    const angleCenter = 180 - angle * idx;
+    const xCenter = Math.sin((Math.PI * 2 * angleCenter) / 360);
+    const yCenter = Math.cos((Math.PI * 2 * angleCenter) / 360);
+    const angleRight = 180 - angle * idx + halfAngle;
+    const xRight = Math.sin((Math.PI * 2 * angleRight) / 360);
+    const yRight = Math.cos((Math.PI * 2 * angleRight) / 360);
+
+    segments.push(
+      hs("polyline", {
+        points: `${200 * xLeft},${200 * yLeft} 0,0 ${200 * xRight},${
+          200 * yRight
+        }`,
+        stroke: "#3b3734",
+        fill: nextBackgroundColor(),
+        "stroke-width": "1",
+      })
+    );
+    innerLabels.push(
+      hs(
+        "text",
+        {
+          x: 180 * xCenter,
+          y: 180 * yCenter,
+          "text-anchor": "middle",
+          "dominant-baseline": "middle",
+        },
+        [String.fromCharCode(65 + idx)]
+      )
+    );
+    outerLabels.push(
+      hs(
+        "text",
+        {
+          x: 220 * xCenter,
+          y: 220 * yCenter,
+          "text-anchor": "middle",
+          "dominant-baseline": "middle",
+        },
+        [String.fromCharCode(65 + idx)]
+      )
+    );
+    const endLetter = initialMapping.encodeForwards(idx, 0);
+    const angleEndLetter = 180 - angle * endLetter;
+    const xEndLetter = Math.sin((Math.PI * 2 * angleEndLetter) / 360);
+    const yEndLetter = Math.cos((Math.PI * 2 * angleEndLetter) / 360);
+    arrows.push(
+      hs("line", {
+        x1: 150 * xCenter,
+        y1: 150 * yCenter,
+        x2: 90 * xEndLetter,
+        y2: 90 * yEndLetter,
+        stroke: "currentColor",
+      })
+    );
+  }
+
+  return {
+    element: hs(
+      "svg",
+      { className: demos.wheel, viewBox: "-200 -200 400 400" },
+      [segments, innerLabels, outerLabels, arrows]
+    ),
   };
 }
