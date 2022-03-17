@@ -3,7 +3,7 @@ import { Encoding, Wheel as EnigmaWheel } from "libenigma";
 
 import * as demos from "./demos.module.scss";
 
-import { isAscii } from "./js/ascii-utils";
+import { getLastAsciiLetter, isAscii } from "./js/ascii-utils";
 import { Histogram, SingleLetterInput, Wheel } from "./js/components";
 
 const TEXT =
@@ -223,13 +223,34 @@ function demoId(): (name: string) => string {
 (() => {
   const id = demoId();
 
+  const wheel = Wheel(new EnigmaWheel(Encoding.ROTOR_I, []));
+  const input = h("input", {
+    id: id("input"),
+    className: demos.lineInput,
+    placeholder: "...",
+  });
+
+  input.addEventListener("input", () => {
+    const lastLetter = getLastAsciiLetter(input.value, "");
+    if (lastLetter === "") {
+      wheel.resetHighlight();
+    } else {
+      wheel.highlightLetter(lastLetter);
+    }
+  });
+
   render(
     document.getElementById("single-wheel-demo")!,
     h("div", [
+      h("div", { className: demos.inputRow }, [wheel.element]),
       h("div", { className: demos.inputRow }, [
-        Wheel(new EnigmaWheel(Encoding.ROTOR_I, [])).element,
+        h("div", { className: demos.inputColumn }, [
+          h("label", { className: demos.label, htmlFor: input.id }, [
+            "Plaintext",
+          ]),
+          input,
+        ]),
       ]),
-      h("div", { className: demos.inputRow }, []),
     ])
   );
 })();

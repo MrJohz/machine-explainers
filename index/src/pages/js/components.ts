@@ -185,8 +185,8 @@ export function Wheel(initialMapping: EnigmaWheel) {
   const halfAngle = 360 / 26 / 2;
   const angle = 360 / 26;
 
-  const childGroups = [];
-  const links = [];
+  const childGroups: SVGGElement[] = [];
+  const links: SVGGElement[] = [];
 
   for (let idx = 0; idx < 26; idx += 1) {
     const angleLeft = 180 - angle * idx - halfAngle;
@@ -267,12 +267,12 @@ export function Wheel(initialMapping: EnigmaWheel) {
     ]);
 
     group.addEventListener("mouseenter", () => {
-      group.classList.add(wheelStyles.active);
-      link.classList.add(wheelStyles.active);
+      group.classList.add(wheelStyles.hover);
+      link.classList.add(wheelStyles.hover);
     });
     group.addEventListener("mouseleave", () => {
-      group.classList.remove(wheelStyles.active);
-      link.classList.remove(wheelStyles.active);
+      group.classList.remove(wheelStyles.hover);
+      link.classList.remove(wheelStyles.hover);
     });
 
     childGroups.push(group);
@@ -286,13 +286,44 @@ export function Wheel(initialMapping: EnigmaWheel) {
   );
 
   diagram.addEventListener("mouseenter", () => {
-    diagram.classList.add(wheelStyles.active);
+    diagram.classList.add(wheelStyles.hover);
   });
   diagram.addEventListener("mouseleave", () => {
-    diagram.classList.remove(wheelStyles.active);
+    diagram.classList.remove(wheelStyles.hover);
   });
+
+  function rotate(position: string | number = 0) {
+    console.log("how?");
+  }
+
+  function highlightLetter(position: string | number) {
+    const index =
+      typeof position === "string" ? charToIndex(position) : position;
+    if (index == null) return;
+
+    for (let idx = 0; idx < 26; idx++) {
+      if (idx !== index) {
+        childGroups[idx].classList.remove(wheelStyles.highlighted);
+        links[idx].classList.remove(wheelStyles.highlighted);
+        continue;
+      }
+
+      childGroups[idx].classList.add(wheelStyles.highlighted);
+      links[idx].classList.add(wheelStyles.highlighted);
+    }
+  }
+
+  function resetHighlight() {
+    for (let idx = 0; idx < 26; idx++) {
+      childGroups[idx].classList.remove(wheelStyles.highlighted);
+      links[idx].classList.remove(wheelStyles.highlighted);
+    }
+  }
 
   return {
     element: diagram,
+    rotate,
+    highlightLetter,
+    resetHighlight,
   };
 }

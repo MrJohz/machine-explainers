@@ -12,7 +12,7 @@
 
   transition: background-color 0.1s;
 
-  &.active {
+  &.hover {
     background-color: color.adjust($ACCENT_ALT, $alpha: -0.3);
   }
 }
@@ -23,7 +23,8 @@
     transition: opacity 0.1s;
   }
 
-  &.active {
+  &.hover,
+  &.highlighted {
     .segment {
       opacity: 1;
     }
@@ -36,7 +37,8 @@
   transition: opacity 0.1s, stroke-width 0.1s;
   stroke-width: 1px;
 
-  &.active {
+  &.hover,
+  &.highlighted {
     opacity: 1;
     stroke-width: 3px;
   }

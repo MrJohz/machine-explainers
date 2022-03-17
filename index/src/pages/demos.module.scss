@@ -9,6 +9,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   box-shadow: $LITTLE_SHADOW;
   border: none;
   border-radius: $BORDER_RADIUS;
+  text-transform: uppercase;
 }
 
 ._basicButton {
@@ -69,7 +70,6 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
   margin: 0 auto;
   height: 8rem;
   padding: 0.5rem;
-  text-transform: uppercase;
   font-size: 0.9rem;
 
   &:read-only {
@@ -169,4 +169,8 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 
 .addButtonColumn {
   align-self: center;
+}
+
+.lineInput {
+  @extend ._basicInput;
 }
