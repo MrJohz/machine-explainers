@@ -1,6 +1,7 @@
 import { h, hs, PropType } from "librender";
 import { Wheel as EnigmaWheel } from "libenigma";
 import * as demos from "../demos.module.scss";
+import * as wheelStyles from "./wheel.module.scss";
 import { charToIndex, getLastAsciiLetter } from "./ascii-utils";
 
 export type Component<T = {}> = HTMLElement & {
@@ -184,7 +185,6 @@ export function Wheel(initialMapping: EnigmaWheel) {
   const halfAngle = 360 / 26 / 2;
   const angle = 360 / 26;
 
-  const segments = [];
   const childGroups = [];
   const links = [];
 
@@ -200,6 +200,7 @@ export function Wheel(initialMapping: EnigmaWheel) {
     const yRight = Math.cos((Math.PI * 2 * angleRight) / 360);
 
     const segment = hs("polyline", {
+      class: wheelStyles.segment,
       points: `${200 * xLeft},${200 * yLeft} 0,0 ${200 * xRight},${
         200 * yRight
       }`,
@@ -229,6 +230,7 @@ export function Wheel(initialMapping: EnigmaWheel) {
     );
 
     const incomingNode = hs("circle", {
+      class: wheelStyles.knob,
       cx: 150 * xCenter,
       cy: 150 * yCenter,
       r: 4,
@@ -236,6 +238,7 @@ export function Wheel(initialMapping: EnigmaWheel) {
     });
 
     const outgoingNode = hs("circle", {
+      class: wheelStyles.knob,
       cx: 90 * xCenter,
       cy: 90 * yCenter,
       r: 3,
@@ -247,27 +250,51 @@ export function Wheel(initialMapping: EnigmaWheel) {
     const xEndLetter = Math.sin((Math.PI * 2 * angleEndLetter) / 360);
     const yEndLetter = Math.cos((Math.PI * 2 * angleEndLetter) / 360);
     const link = hs("path", {
-      d: `M${150 * xCenter} ${150 * yCenter}C${150 * xCenter} ${
-        150 * yCenter + 18
-      } ${90 * xEndLetter} ${90 * yEndLetter + 18} ${90 * xEndLetter} ${
+      class: wheelStyles.link,
+      d: `M${150 * xCenter} ${150 * yCenter}C${130 * xCenter} ${
+        130 * yCenter
+      } ${60 * xEndLetter} ${60 * yEndLetter} ${90 * xEndLetter} ${
         90 * yEndLetter
       }`,
       stroke: "currentColor",
       fill: "none",
     });
 
-    segments.push(segment);
-    childGroups.push(
-      hs("g", [incomingNode, outgoingNode, innerLabel, outerLabel])
-    );
+    const group = hs("g", { class: wheelStyles.segmentGroup }, [
+      segment,
+      incomingNode,
+      outgoingNode,
+      innerLabel,
+      outerLabel,
+    ]);
+
+    group.addEventListener("mouseenter", () => {
+      group.classList.add(wheelStyles.active);
+      link.classList.add(wheelStyles.active);
+    });
+    group.addEventListener("mouseleave", () => {
+      group.classList.remove(wheelStyles.active);
+      link.classList.remove(wheelStyles.active);
+    });
+
+    childGroups.push(group);
     links.push(link);
   }
 
+  const diagram = hs(
+    "svg",
+    { class: wheelStyles.wheel, viewBox: "-200 -200 400 400" },
+    [childGroups, links]
+  );
+
+  diagram.addEventListener("mouseenter", () => {
+    diagram.classList.add(wheelStyles.active);
+  });
+  diagram.addEventListener("mouseleave", () => {
+    diagram.classList.remove(wheelStyles.active);
+  });
+
   return {
-    element: hs(
-      "svg",
-      { className: demos.wheel, viewBox: "-200 -200 400 400" },
-      [segments, childGroups, links]
-    ),
+    element: diagram,
   };
 }

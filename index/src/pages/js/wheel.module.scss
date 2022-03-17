@@ -1,0 +1,46 @@
+@use "sass:color";
+@import "../colors.scss";
+
+.wheel {
+  height: calc(($ARTICLE_WIDTH) / 4 * 3);
+  width: calc(($ARTICLE_WIDTH) / 4 * 3);
+  border-radius: 100%;
+  background-color: $ACCENT_ALT;
+  box-shadow: $BOX_SHADOW;
+  font-family: $MONOSPACE_FONT;
+  overflow: visible;
+
+  transition: background-color 0.1s;
+
+  &.active {
+    background-color: color.adjust($ACCENT_ALT, $alpha: -0.3);
+  }
+}
+
+.segmentGroup {
+  .knob {
+  }
+
+  .segment {
+    opacity: 0.2;
+    transition: opacity 0.1s;
+  }
+
+  &.active {
+    .segment {
+      opacity: 1;
+    }
+  }
+}
+
+.link {
+  pointer-events: none;
+  opacity: 0.3;
+  transition: opacity 0.1s, stroke-width 0.1s;
+  stroke-width: 1px;
+
+  &.active {
+    opacity: 1;
+    stroke-width: 3px;
+  }
+}

@@ -227,9 +227,9 @@ function demoId(): (name: string) => string {
     document.getElementById("single-wheel-demo")!,
     h("div", [
       h("div", { className: demos.inputRow }, [
-        "oh no!",
         Wheel(new EnigmaWheel(Encoding.ROTOR_I, [])).element,
       ]),
+      h("div", { className: demos.inputRow }, []),
     ])
   );
 })();

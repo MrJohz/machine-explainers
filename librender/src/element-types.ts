@@ -5,10 +5,17 @@ export type AriaAttributes = {
 };
 
 export type SvgTagNameMap = {
-  svg: { attrs: {}; element: SVGSVGElement };
+  svg: {
+    element: SVGSVGElement;
+    attrs: {
+      class: string;
+      viewBox: string;
+    };
+  };
   polyline: {
     element: SVGPolylineElement;
     attrs: {
+      class: string;
       points: string;
       stroke: string;
       fill: string;
@@ -18,6 +25,7 @@ export type SvgTagNameMap = {
   text: {
     element: SVGTextElement;
     attrs: {
+      class: string;
       x: number | string;
       y: number | string;
       "text-anchor": string;
@@ -27,6 +35,7 @@ export type SvgTagNameMap = {
   line: {
     element: SVGLineElement;
     attrs: {
+      class: string;
       x1: number | string;
       x2: number | string;
       y1: number | string;
@@ -37,6 +46,7 @@ export type SvgTagNameMap = {
   circle: {
     element: SVGCircleElement;
     attrs: {
+      class: string;
       cx: number | string;
       cy: number | string;
       r: number | string;
@@ -47,6 +57,7 @@ export type SvgTagNameMap = {
   path: {
     element: SVGPathElement;
     attrs: {
+      class: string;
       d: string;
       stroke: string;
       fill: string;
@@ -54,6 +65,8 @@ export type SvgTagNameMap = {
   };
   g: {
     element: SVGGElement;
-    attrs: {};
+    attrs: {
+      class: string;
+    };
   };
 };
