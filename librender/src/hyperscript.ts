@@ -1,21 +1,17 @@
+import { AriaAttributes, SvgTagNameMap } from "./element-types";
+
 export type Child = null | string | HTMLElement | SVGElement | Child[];
 
-export type AriaAttributes = {
-  "aria-role": string;
-  "aria-hidden": string;
-  "aria-labelledby": string;
+export type SvgPropType<T extends keyof SvgTagNameMap> = {
+  [K in keyof SvgTagNameMap[T]["attrs"]]?: SvgTagNameMap[T]["attrs"][K];
 };
 
-export type SvgPropType<T extends SVGElement = SVGElement> = {
-  [K in keyof T]?: string;
-};
-
-export function hs<T extends keyof SVGElementTagNameMap>(
+export function hs<T extends keyof SvgTagNameMap>(
   name: T,
-  attributes?: SvgPropType<SVGElementTagNameMap[T]> | Child[],
+  attributes?: SvgPropType<T> | Child[],
   children?: Child[]
-): SVGElementTagNameMap[T] {
-  let derivedAttributes: SvgPropType<SVGElementTagNameMap[T]>;
+): SvgTagNameMap[T]["element"] {
+  let derivedAttributes: SvgPropType<T>;
   let derivedChildren: Child[];
 
   if (Array.isArray(attributes)) {
@@ -29,10 +25,10 @@ export function hs<T extends keyof SVGElementTagNameMap>(
   const element = document.createElementNS("http://www.w3.org/2000/svg", name);
   for (const [key, value] of Object.entries(derivedAttributes)) {
     if (key === "className") {
-      element.setAttribute("class", value);
+      element.setAttribute("class", "" + value);
       continue;
     }
-    element.setAttribute(key, value);
+    element.setAttribute(key, "" + value);
   }
 
   while (derivedChildren.length) {

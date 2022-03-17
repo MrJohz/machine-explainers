@@ -185,9 +185,8 @@ export function Wheel(initialMapping: EnigmaWheel) {
   const angle = 360 / 26;
 
   const segments = [];
-  const innerLabels = [];
-  const outerLabels = [];
-  const arrows = [];
+  const childGroups = [];
+  const links = [];
 
   for (let idx = 0; idx < 26; idx += 1) {
     const angleLeft = 180 - angle * idx - halfAngle;
@@ -200,60 +199,75 @@ export function Wheel(initialMapping: EnigmaWheel) {
     const xRight = Math.sin((Math.PI * 2 * angleRight) / 360);
     const yRight = Math.cos((Math.PI * 2 * angleRight) / 360);
 
-    segments.push(
-      hs("polyline", {
-        points: `${200 * xLeft},${200 * yLeft} 0,0 ${200 * xRight},${
-          200 * yRight
-        }`,
-        stroke: "#3b3734",
-        fill: nextBackgroundColor(),
-        "stroke-width": "1",
-      })
+    const segment = hs("polyline", {
+      points: `${200 * xLeft},${200 * yLeft} 0,0 ${200 * xRight},${
+        200 * yRight
+      }`,
+      stroke: "#3b3734",
+      fill: nextBackgroundColor(),
+      "stroke-width": "1",
+    });
+    const innerLabel = hs(
+      "text",
+      {
+        x: 180 * xCenter,
+        y: 180 * yCenter,
+        "text-anchor": "middle",
+        "dominant-baseline": "middle",
+      },
+      [String.fromCharCode(65 + idx)]
     );
-    innerLabels.push(
-      hs(
-        "text",
-        {
-          x: 180 * xCenter,
-          y: 180 * yCenter,
-          "text-anchor": "middle",
-          "dominant-baseline": "middle",
-        },
-        [String.fromCharCode(65 + idx)]
-      )
+    const outerLabel = hs(
+      "text",
+      {
+        x: 220 * xCenter,
+        y: 220 * yCenter,
+        "text-anchor": "middle",
+        "dominant-baseline": "middle",
+      },
+      [String.fromCharCode(65 + idx)]
     );
-    outerLabels.push(
-      hs(
-        "text",
-        {
-          x: 220 * xCenter,
-          y: 220 * yCenter,
-          "text-anchor": "middle",
-          "dominant-baseline": "middle",
-        },
-        [String.fromCharCode(65 + idx)]
-      )
-    );
+
+    const incomingNode = hs("circle", {
+      cx: 150 * xCenter,
+      cy: 150 * yCenter,
+      r: 4,
+      fill: "currentColor",
+    });
+
+    const outgoingNode = hs("circle", {
+      cx: 90 * xCenter,
+      cy: 90 * yCenter,
+      r: 3,
+      fill: "currentColor",
+    });
+
     const endLetter = initialMapping.encodeForwards(idx, 0);
     const angleEndLetter = 180 - angle * endLetter;
     const xEndLetter = Math.sin((Math.PI * 2 * angleEndLetter) / 360);
     const yEndLetter = Math.cos((Math.PI * 2 * angleEndLetter) / 360);
-    arrows.push(
-      hs("line", {
-        x1: 150 * xCenter,
-        y1: 150 * yCenter,
-        x2: 90 * xEndLetter,
-        y2: 90 * yEndLetter,
-        stroke: "currentColor",
-      })
+    const link = hs("path", {
+      d: `M${150 * xCenter} ${150 * yCenter}C${150 * xCenter} ${
+        150 * yCenter + 18
+      } ${90 * xEndLetter} ${90 * yEndLetter + 18} ${90 * xEndLetter} ${
+        90 * yEndLetter
+      }`,
+      stroke: "currentColor",
+      fill: "none",
+    });
+
+    segments.push(segment);
+    childGroups.push(
+      hs("g", [incomingNode, outgoingNode, innerLabel, outerLabel])
     );
+    links.push(link);
   }
 
   return {
     element: hs(
       "svg",
       { className: demos.wheel, viewBox: "-200 -200 400 400" },
-      [segments, innerLabels, outerLabels, arrows]
+      [segments, childGroups, links]
     ),
   };
 }
