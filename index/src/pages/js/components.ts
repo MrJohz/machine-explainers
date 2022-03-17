@@ -230,7 +230,6 @@ export function Wheel(initialMapping: EnigmaWheel) {
     );
 
     const incomingNode = hs("circle", {
-      class: wheelStyles.knob,
       cx: 150 * xCenter,
       cy: 150 * yCenter,
       r: 4,
@@ -238,7 +237,6 @@ export function Wheel(initialMapping: EnigmaWheel) {
     });
 
     const outgoingNode = hs("circle", {
-      class: wheelStyles.knob,
       cx: 90 * xCenter,
       cy: 90 * yCenter,
       r: 3,

@@ -27,7 +27,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 }
 
 .singleLetterInputChangers {
-  composes: _basicButton;
+  @extend ._basicButton;
   font-size: 1.5rem;
   width: calc(3rem + 4px);
   height: 1.5rem;
@@ -45,7 +45,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 }
 
 .singleLetterInput {
-  composes: _basicInput;
+  @extend ._basicInput;
 
   z-index: 0;
   height: 3rem;
@@ -64,7 +64,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 }
 
 .inputBox {
-  composes: _basicInput;
+  @extend ._basicInput;
   width: min(20rem, 100vw - 4rem);
   margin: 0 auto;
   height: 8rem;
@@ -163,7 +163,7 @@ $LITTLEST_SHADOW: 0 0 1px 2px $ACCENT_TEXT;
 }
 
 .button {
-  composes: _basicButton;
+  @extend ._basicButton;
   padding: 0.25rem 0.5rem;
 }
 
