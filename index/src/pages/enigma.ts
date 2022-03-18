@@ -223,7 +223,7 @@ function demoId(): (name: string) => string {
 (() => {
   const id = demoId();
 
-  const wheel = Wheel(new EnigmaWheel(Encoding.ROTOR_I, []));
+  const wheel = Wheel(4, new EnigmaWheel(Encoding.ROTOR_I, []));
   const input = h("input", {
     id: id("input"),
     className: demos.lineInput,

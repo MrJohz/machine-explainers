@@ -175,34 +175,52 @@ function colorCycle(colors: string[]): () => string {
   };
 }
 
-export function Wheel(initialMapping: EnigmaWheel) {
+function wheelPositions(rotation: number, letterIndex: number) {
+  const halfAngle = 360 / 26 / 2;
+  const angle = 360 / 26;
+  const index = (rotation + letterIndex) % 26;
+
+  const angleLeft = 180 - angle * index - halfAngle;
+  const angleCenter = 180 - angle * index;
+  const angleRight = 180 - angle * index + halfAngle;
+
+  return {
+    left: {
+      x: Math.sin((Math.PI * 2 * angleLeft) / 360),
+      y: Math.cos((Math.PI * 2 * angleLeft) / 360),
+    },
+    center: {
+      x: Math.sin((Math.PI * 2 * angleCenter) / 360),
+      y: Math.cos((Math.PI * 2 * angleCenter) / 360),
+    },
+    right: {
+      x: Math.sin((Math.PI * 2 * angleRight) / 360),
+      y: Math.cos((Math.PI * 2 * angleRight) / 360),
+    },
+  };
+}
+
+export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
   const nextBackgroundColor = colorCycle([
     "#bda48c",
     "#c6b19c",
     "#ae8f72",
     "#b69a7f",
   ]);
-  const halfAngle = 360 / 26 / 2;
-  const angle = 360 / 26;
 
   const childGroups: SVGGElement[] = [];
   const links: SVGGElement[] = [];
 
+  let currentRotation = initialRotation;
+
   for (let idx = 0; idx < 26; idx += 1) {
-    const angleLeft = 180 - angle * idx - halfAngle;
-    const xLeft = Math.sin((Math.PI * 2 * angleLeft) / 360);
-    const yLeft = Math.cos((Math.PI * 2 * angleLeft) / 360);
-    const angleCenter = 180 - angle * idx;
-    const xCenter = Math.sin((Math.PI * 2 * angleCenter) / 360);
-    const yCenter = Math.cos((Math.PI * 2 * angleCenter) / 360);
-    const angleRight = 180 - angle * idx + halfAngle;
-    const xRight = Math.sin((Math.PI * 2 * angleRight) / 360);
-    const yRight = Math.cos((Math.PI * 2 * angleRight) / 360);
+    const { left, right, center } = wheelPositions(initialRotation, idx);
+    const { center: outerLabelPos } = wheelPositions(0, idx);
 
     const segment = hs("polyline", {
       class: wheelStyles.segment,
-      points: `${200 * xLeft},${200 * yLeft} 0,0 ${200 * xRight},${
-        200 * yRight
+      points: `${200 * left.x},${200 * left.y} 0,0 ${200 * right.x},${
+        200 * right.y
       }`,
       stroke: "#3b3734",
       fill: nextBackgroundColor(),
@@ -211,8 +229,8 @@ export function Wheel(initialMapping: EnigmaWheel) {
     const innerLabel = hs(
       "text",
       {
-        x: 180 * xCenter,
-        y: 180 * yCenter,
+        x: 180 * center.x,
+        y: 180 * center.y,
         "text-anchor": "middle",
         "dominant-baseline": "middle",
       },
@@ -221,8 +239,8 @@ export function Wheel(initialMapping: EnigmaWheel) {
     const outerLabel = hs(
       "text",
       {
-        x: 220 * xCenter,
-        y: 220 * yCenter,
+        x: 220 * outerLabelPos.x,
+        y: 220 * outerLabelPos.y,
         "text-anchor": "middle",
         "dominant-baseline": "middle",
       },
@@ -230,29 +248,29 @@ export function Wheel(initialMapping: EnigmaWheel) {
     );
 
     const incomingNode = hs("circle", {
-      cx: 150 * xCenter,
-      cy: 150 * yCenter,
+      cx: 150 * center.x,
+      cy: 150 * center.y,
       r: 4,
       fill: "currentColor",
     });
 
     const outgoingNode = hs("circle", {
-      cx: 90 * xCenter,
-      cy: 90 * yCenter,
+      cx: 90 * center.x,
+      cy: 90 * center.y,
       r: 3,
       fill: "currentColor",
     });
 
-    const endLetter = initialMapping.encodeForwards(idx, 0);
-    const angleEndLetter = 180 - angle * endLetter;
-    const xEndLetter = Math.sin((Math.PI * 2 * angleEndLetter) / 360);
-    const yEndLetter = Math.cos((Math.PI * 2 * angleEndLetter) / 360);
+    const { center: endLetter } = wheelPositions(
+      initialRotation,
+      initialMapping.encodeForwards(idx, 0)
+    );
     const link = hs("path", {
       class: wheelStyles.link,
-      d: `M${150 * xCenter} ${150 * yCenter}C${130 * xCenter} ${
-        130 * yCenter
-      } ${60 * xEndLetter} ${60 * yEndLetter} ${90 * xEndLetter} ${
-        90 * yEndLetter
+      d: `M${150 * center.x} ${150 * center.y}C${130 * center.x} ${
+        130 * center.y
+      } ${60 * endLetter.x} ${60 * endLetter.y} ${90 * endLetter.x} ${
+        90 * endLetter.y
       }`,
       stroke: "currentColor",
       fill: "none",
@@ -293,13 +311,19 @@ export function Wheel(initialMapping: EnigmaWheel) {
   });
 
   function rotate(position: string | number = 0) {
-    console.log("how?");
-  }
-
-  function highlightLetter(position: string | number) {
     const index =
       typeof position === "string" ? charToIndex(position) : position;
     if (index == null) return;
+    currentRotation = index;
+
+    for (let idx = 0; idx < 26; idx++) {}
+  }
+
+  function highlightLetter(position: string | number) {
+    let index = typeof position === "string" ? charToIndex(position) : position;
+    if (index == null) return;
+
+    index = (index - initialRotation + 26) % 26;
 
     for (let idx = 0; idx < 26; idx++) {
       if (idx !== index) {
