@@ -3,7 +3,13 @@ import { Encoding, Wheel as EnigmaWheel } from "libenigma";
 
 import * as demos from "./demos.module.scss";
 
-import { getLastAsciiLetter, isAscii } from "./js/ascii-utils";
+import {
+  asciiLength,
+  charToIndex,
+  getLastAsciiLetter,
+  indexToChar,
+  isAscii,
+} from "./js/ascii-utils";
 import { Histogram, SingleLetterInput, Wheel } from "./js/components";
 
 const TEXT =
@@ -223,18 +229,41 @@ function demoId(): (name: string) => string {
 (() => {
   const id = demoId();
 
-  const wheel = Wheel(4, new EnigmaWheel(Encoding.ROTOR_I, []));
+  const encoder = new EnigmaWheel(Encoding.ROTOR_I, []);
+
+  const wheel = Wheel(0, encoder);
   const input = h("input", {
     id: id("input"),
     className: demos.lineInput,
     placeholder: "...",
   });
+  const output = h("input", {
+    id: id("output"),
+    className: demos.lineInput,
+  });
 
   input.addEventListener("input", () => {
     const lastLetter = getLastAsciiLetter(input.value, "");
+    const result = [];
+    let rotation = 0;
+    for (const letter of input.value) {
+      if (!isAscii(letter)) {
+        result.push(letter);
+        continue;
+      }
+
+      rotation += 1;
+      result.push(
+        indexToChar(encoder.encodeForwards(charToIndex(letter)!, rotation))
+      );
+    }
+    output.value = result.join("");
+    output.scrollLeft = output.scrollWidth;
     if (lastLetter === "") {
+      wheel.rotate(rotation);
       wheel.resetHighlight();
     } else {
+      wheel.rotate(rotation);
       wheel.highlightLetter(lastLetter);
     }
   });
@@ -249,6 +278,12 @@ function demoId(): (name: string) => string {
             "Plaintext",
           ]),
           input,
+        ]),
+        h("div", { className: demos.inputColumn }, [
+          h("label", { className: demos.label, htmlFor: input.id }, [
+            "Plaintext",
+          ]),
+          output,
         ]),
       ]),
     ])

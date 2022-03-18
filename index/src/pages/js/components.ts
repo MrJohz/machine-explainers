@@ -175,10 +175,10 @@ function colorCycle(colors: string[]): () => string {
   };
 }
 
-function wheelPositions(rotation: number, letterIndex: number) {
+function wheelPositions(letterIndex: number) {
   const halfAngle = 360 / 26 / 2;
   const angle = 360 / 26;
-  const index = (rotation + letterIndex) % 26;
+  const index = letterIndex % 26;
 
   const angleLeft = 180 - angle * index - halfAngle;
   const angleCenter = 180 - angle * index;
@@ -208,14 +208,14 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
     "#b69a7f",
   ]);
 
-  const childGroups: SVGGElement[] = [];
-  const links: SVGGElement[] = [];
+  const childGroups: SVGElement[] = [];
+  const edgeTexts: SVGElement[] = [];
+  const links: SVGElement[] = [];
 
   let currentRotation = initialRotation;
 
   for (let idx = 0; idx < 26; idx += 1) {
-    const { left, right, center } = wheelPositions(initialRotation, idx);
-    const { center: outerLabelPos } = wheelPositions(0, idx);
+    const { left, right, center } = wheelPositions(idx);
 
     const segment = hs("polyline", {
       class: wheelStyles.segment,
@@ -226,21 +226,13 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
       fill: nextBackgroundColor(),
       "stroke-width": "1",
     });
-    const innerLabel = hs(
-      "text",
-      {
-        x: 180 * center.x,
-        y: 180 * center.y,
-        "text-anchor": "middle",
-        "dominant-baseline": "middle",
-      },
-      [String.fromCharCode(65 + idx)]
-    );
     const outerLabel = hs(
       "text",
       {
-        x: 220 * outerLabelPos.x,
-        y: 220 * outerLabelPos.y,
+        class: wheelStyles.outerLabel,
+        x: 220 * center.x,
+        y: 220 * center.y,
+        fill: "currentColor",
         "text-anchor": "middle",
         "dominant-baseline": "middle",
       },
@@ -262,7 +254,6 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
     });
 
     const { center: endLetter } = wheelPositions(
-      initialRotation,
       initialMapping.encodeForwards(idx, 0)
     );
     const link = hs("path", {
@@ -276,13 +267,14 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
       fill: "none",
     });
 
-    const group = hs("g", { class: wheelStyles.segmentGroup }, [
-      segment,
-      incomingNode,
-      outgoingNode,
-      innerLabel,
-      outerLabel,
-    ]);
+    const group = hs(
+      "g",
+      {
+        class: wheelStyles.segmentGroup,
+        style: `transform:rotate(-${initialRotation * (360 / 26)}deg)`,
+      },
+      [segment, incomingNode, outgoingNode]
+    );
 
     group.addEventListener("mouseenter", () => {
       group.classList.add(wheelStyles.hover);
@@ -295,12 +287,13 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
 
     childGroups.push(group);
     links.push(link);
+    edgeTexts.push(outerLabel);
   }
 
   const diagram = hs(
     "svg",
     { class: wheelStyles.wheel, viewBox: "-200 -200 400 400" },
-    [childGroups, links]
+    [childGroups, links, edgeTexts]
   );
 
   diagram.addEventListener("mouseenter", () => {
@@ -316,24 +309,43 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
     if (index == null) return;
     currentRotation = index;
 
-    for (let idx = 0; idx < 26; idx++) {}
+    for (let idx = 0; idx < 26; idx++) {
+      links[idx].style.transform = `rotate(-${
+        currentRotation * (360 / 26)
+      }deg)`;
+      childGroups[idx].style.transform = `rotate(-${
+        currentRotation * (360 / 26)
+      }deg)`;
+    }
   }
 
   function highlightLetter(position: string | number) {
     let index = typeof position === "string" ? charToIndex(position) : position;
     if (index == null) return;
 
-    index = (index - initialRotation + 26) % 26;
+    const rotatedIndex = (index + currentRotation) % 26;
+    const outputIndex = initialMapping.encodeForwards(index, currentRotation);
 
     for (let idx = 0; idx < 26; idx++) {
-      if (idx !== index) {
+      if (idx === rotatedIndex) {
+        childGroups[idx].classList.add(wheelStyles.highlighted);
+        links[idx].classList.add(wheelStyles.highlighted);
+      } else {
         childGroups[idx].classList.remove(wheelStyles.highlighted);
         links[idx].classList.remove(wheelStyles.highlighted);
-        continue;
       }
 
-      childGroups[idx].classList.add(wheelStyles.highlighted);
-      links[idx].classList.add(wheelStyles.highlighted);
+      if (idx === outputIndex) {
+        edgeTexts[idx].classList.add(wheelStyles.highlightedOutput);
+      } else {
+        edgeTexts[idx].classList.remove(wheelStyles.highlightedOutput);
+      }
+
+      if (idx === index) {
+        edgeTexts[idx].classList.add(wheelStyles.highlighted);
+      } else {
+        edgeTexts[idx].classList.remove(wheelStyles.highlighted);
+      }
     }
   }
 
@@ -341,6 +353,10 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
     for (let idx = 0; idx < 26; idx++) {
       childGroups[idx].classList.remove(wheelStyles.highlighted);
       links[idx].classList.remove(wheelStyles.highlighted);
+      edgeTexts[idx].classList.remove(
+        wheelStyles.highlighted,
+        wheelStyles.highlightedOutput
+      );
     }
   }
 

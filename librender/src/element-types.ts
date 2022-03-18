@@ -8,6 +8,7 @@ export type SvgTagNameMap = {
   svg: {
     element: SVGSVGElement;
     attrs: {
+      style: string;
       class: string;
       viewBox: string;
     };
@@ -15,6 +16,7 @@ export type SvgTagNameMap = {
   polyline: {
     element: SVGPolylineElement;
     attrs: {
+      style: string;
       class: string;
       points: string;
       stroke: string;
@@ -25,9 +27,11 @@ export type SvgTagNameMap = {
   text: {
     element: SVGTextElement;
     attrs: {
+      style: string;
       class: string;
       x: number | string;
       y: number | string;
+      fill: string;
       "text-anchor": string;
       "dominant-baseline": string;
     };
@@ -35,6 +39,7 @@ export type SvgTagNameMap = {
   line: {
     element: SVGLineElement;
     attrs: {
+      style: string;
       class: string;
       x1: number | string;
       x2: number | string;
@@ -46,6 +51,7 @@ export type SvgTagNameMap = {
   circle: {
     element: SVGCircleElement;
     attrs: {
+      style: string;
       class: string;
       cx: number | string;
       cy: number | string;
@@ -57,6 +63,7 @@ export type SvgTagNameMap = {
   path: {
     element: SVGPathElement;
     attrs: {
+      style: string;
       class: string;
       d: string;
       stroke: string;
@@ -66,6 +73,7 @@ export type SvgTagNameMap = {
   g: {
     element: SVGGElement;
     attrs: {
+      style: string;
       class: string;
     };
   };

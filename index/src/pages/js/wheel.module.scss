@@ -18,6 +18,8 @@
 }
 
 .segmentGroup {
+  transition: transform 0.2s;
+
   .segment {
     opacity: 0.2;
     transition: opacity 0.1s;
@@ -34,12 +36,23 @@
 .link {
   pointer-events: none;
   opacity: 0.3;
-  transition: opacity 0.1s, stroke-width 0.1s;
+  transition: opacity 0.1s, stroke-width 0.1s, transform 0.2s;
   stroke-width: 1px;
 
   &.hover,
   &.highlighted {
     opacity: 1;
     stroke-width: 3px;
+  }
+}
+
+.outerLabel {
+  &.highlighted {
+    color: green;
+    font-size: 1.5rem;
+  }
+  &.highlightedOutput {
+    color: red;
+    font-size: 1.5rem;
   }
 }
