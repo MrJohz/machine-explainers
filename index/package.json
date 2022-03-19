@@ -4,8 +4,8 @@
   "description": "The base site for the computer site thing",
   "private": true,
   "scripts": {
-    "serve": "parcel serve src/index.html",
-    "build": "parcel build src/index.html",
+    "serve": "parcel serve src/index.html src/404.html",
+    "build": "parcel build src/index.html src/404.html",
     "test": "jest"
   },
   "author": "",
