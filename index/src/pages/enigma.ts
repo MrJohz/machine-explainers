@@ -1,10 +1,9 @@
-import { h, render } from "librender";
+import { h, render, idGroup } from "librender";
 import { Encoding, Wheel as EnigmaWheel } from "libenigma";
 
 import * as demos from "./demos.module.scss";
 
 import {
-  asciiLength,
   charToIndex,
   getLastAsciiLetter,
   indexToChar,
@@ -15,17 +14,8 @@ import { Histogram, SingleLetterInput, Wheel } from "./js/components";
 const TEXT =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
-let previousId = 0;
-function demoId(): (name: string) => string {
-  const prefix = `demo_${++previousId}_`;
-
-  return (name: string): string => {
-    return prefix + name;
-  };
-}
-
 (() => {
-  const id = demoId();
+  const id = idGroup();
 
   const keyInput = SingleLetterInput("D", { id: id("key") });
   const plaintextInput = h("textarea", {
@@ -107,7 +97,7 @@ function demoId(): (name: string) => string {
 })();
 
 (() => {
-  const id = demoId();
+  const id = idGroup();
 
   const INPUT_LETTERS = ["E", "N", "I", "G", "M", "A"];
 
@@ -227,9 +217,9 @@ function demoId(): (name: string) => string {
 })();
 
 (() => {
-  const id = demoId();
+  const id = idGroup();
 
-  const encoder = new EnigmaWheel(Encoding.ROTOR_I, []);
+  const encoder = new EnigmaWheel("ROTOR I", Encoding.ROTOR_I, []);
 
   const wheel = Wheel(0, encoder);
   const input = h("input", {

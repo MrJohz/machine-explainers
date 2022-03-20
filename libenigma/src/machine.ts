@@ -2,11 +2,14 @@ import { letterToRotation, rotationToLetter } from "./letter-utils";
 import { Encoding } from "./encoding";
 
 export class Wheel {
+  name: string;
+
   #forward: Encoding;
   #backward: Encoding;
   #notches: number[];
 
-  constructor(encoding: Encoding, notches: number[]) {
+  constructor(name: string, encoding: Encoding, notches: number[]) {
+    this.name = name;
     this.#forward = encoding;
     this.#backward = encoding.inverted();
     this.#notches = notches;

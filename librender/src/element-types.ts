@@ -10,6 +10,7 @@ export type SvgTagNameMap = {
     attrs: {
       style: string;
       class: string;
+      id: string;
       viewBox: string;
     };
   };
@@ -18,6 +19,7 @@ export type SvgTagNameMap = {
     attrs: {
       style: string;
       class: string;
+      id: string;
       points: string;
       stroke: string;
       fill: string;
@@ -29,9 +31,11 @@ export type SvgTagNameMap = {
     attrs: {
       style: string;
       class: string;
+      id: string;
       x: number | string;
       y: number | string;
       fill: string;
+      width: number | string;
       "text-anchor": string;
       "dominant-baseline": string;
     };
@@ -41,6 +45,7 @@ export type SvgTagNameMap = {
     attrs: {
       style: string;
       class: string;
+      id: string;
       x1: number | string;
       x2: number | string;
       y1: number | string;
@@ -53,6 +58,7 @@ export type SvgTagNameMap = {
     attrs: {
       style: string;
       class: string;
+      id: string;
       cx: number | string;
       cy: number | string;
       r: number | string;
@@ -65,6 +71,7 @@ export type SvgTagNameMap = {
     attrs: {
       style: string;
       class: string;
+      id: string;
       d: string;
       stroke: string;
       fill: string;
@@ -75,6 +82,16 @@ export type SvgTagNameMap = {
     attrs: {
       style: string;
       class: string;
+      id: string;
+    };
+  };
+  textPath: {
+    element: SVGTextPathElement;
+    attrs: {
+      style: string;
+      class: string;
+      id: string;
+      href: string;
     };
   };
 };

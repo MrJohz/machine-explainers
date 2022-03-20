@@ -18,7 +18,7 @@
 }
 
 .segmentGroup {
-  transition: transform 0.2s;
+  transition: transform 0.4s;
 
   .segment {
     opacity: 0.2;
@@ -36,13 +36,27 @@
 .link {
   pointer-events: none;
   opacity: 0.3;
-  transition: opacity 0.1s, stroke-width 0.1s, transform 0.2s;
+  transition: opacity 0.1s, stroke-width 0.1s, transform 0.4s;
   stroke-width: 1px;
 
   &.hover,
   &.highlighted {
     opacity: 1;
     stroke-width: 3px;
+  }
+
+  &.highlighted {
+    @keyframes dash {
+      from {
+        stroke-dashoffset: 200;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    stroke-dasharray: 20;
+    animation: dash 1.5s linear infinite;
   }
 }
 
@@ -55,4 +69,10 @@
     color: red;
     font-size: 1.5rem;
   }
+}
+
+.wheelLabel {
+  opacity: 0.5;
+  transition: transform 0.4s;
+  pointer-events: none;
 }

@@ -10,3 +10,7 @@
 - [ ] Fix different blacks?
 - [ ] Homepage
 - [ ] 404 Page
+- Optimisations
+  - [ ] multi-key cypher, v. long text input
+  - [ ] first rotor demo, reduce number of style updates/fetches
+  - [ ] first rotor demo, simplify code?

@@ -1,4 +1,4 @@
-import { h, hs, PropType } from "librender";
+import { h, hs, PropType, idGroup } from "librender";
 import { Wheel as EnigmaWheel } from "libenigma";
 import * as demos from "../demos.module.scss";
 import * as wheelStyles from "./wheel.module.scss";
@@ -201,6 +201,7 @@ function wheelPositions(letterIndex: number) {
 }
 
 export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
+  const wheelId = idGroup("wheel-cpt");
   const nextBackgroundColor = colorCycle([
     "#bda48c",
     "#c6b19c",
@@ -211,6 +212,37 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
   const childGroups: SVGElement[] = [];
   const edgeTexts: SVGElement[] = [];
   const links: SVGElement[] = [];
+
+  const labelPathDirections = [
+    `M${175 * Math.sin((Math.PI * 2 * 260) / 360)} ${
+      175 * Math.cos((Math.PI * 2 * 260) / 360)
+    }`,
+  ];
+  for (let angle = 250; angle > 180; angle -= 10) {
+    const handleAngle = (Math.PI * 2 * (angle + 5)) / 360;
+    const finalAngle = (Math.PI * 2 * angle) / 360;
+    const handleX = 175 * Math.sin(handleAngle);
+    const handleY = 175 * Math.cos(handleAngle);
+    const finalX = 175 * Math.sin(finalAngle);
+    const finalY = 175 * Math.cos(finalAngle);
+    labelPathDirections.push(
+      `C${handleX} ${handleY} ${handleX} ${handleY} ${finalX} ${finalY}`
+    );
+  }
+
+  const labelPath = hs("path", {
+    id: wheelId("label-path"),
+    d: labelPathDirections.join(""),
+    fill: "none",
+  });
+  const label = hs(
+    "text",
+    {
+      class: wheelStyles.wheelLabel,
+      width: 200,
+    },
+    [hs("textPath", { href: `#${labelPath.id}` }, [initialMapping.name])]
+  );
 
   let currentRotation = initialRotation;
 
@@ -293,7 +325,7 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
   const diagram = hs(
     "svg",
     { class: wheelStyles.wheel, viewBox: "-200 -200 400 400" },
-    [childGroups, links, edgeTexts]
+    [childGroups, links, edgeTexts, labelPath, label]
   );
 
   diagram.addEventListener("mouseenter", () => {
@@ -308,6 +340,8 @@ export function Wheel(initialRotation: number, initialMapping: EnigmaWheel) {
       typeof position === "string" ? charToIndex(position) : position;
     if (index == null) return;
     currentRotation = index;
+
+    label.style.transform = `rotate(-${currentRotation * (360 / 26)}deg)`;
 
     for (let idx = 0; idx < 26; idx++) {
       links[idx].style.transform = `rotate(-${

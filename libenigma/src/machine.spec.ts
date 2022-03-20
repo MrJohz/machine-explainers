@@ -6,14 +6,17 @@ describe("EnigmaMachine", () => {
   describe("type", () => {
     it("runs through a sample encoding successfully", () => {
       const ROTOR_I = new Wheel(
+        "ROTOR I",
         Encoding.fromString("EKMFLGDQVZNTOWYHXUSPAIBRCJ"),
         [letterToRotation("Q")]
       );
       const ROTOR_II = new Wheel(
+        "ROTOR II",
         Encoding.fromString("AJDKSIRUXBLHWTMCQGZNPYFVOE"),
         [letterToRotation("E")]
       );
       const ROTOR_III = new Wheel(
+        "ROTOR III",
         Encoding.fromString("BDFHJLCPRTXVZNYEIWGAKMUSQO"),
         [letterToRotation("V")]
       );
