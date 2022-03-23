@@ -1,9 +1,10 @@
 @use "sass:color";
-@import "../colors.scss";
+@import "../../colors.scss";
 
 .wheel {
-  height: calc(($ARTICLE_WIDTH) / 4 * 3);
-  width: calc(($ARTICLE_WIDTH) / 4 * 3);
+  height: calc(($ARTICLE_WIDTH) / 2 - 2rem);
+  width: calc(($ARTICLE_WIDTH) / 2 - 2rem);
+  margin: 2rem;
   border-radius: 100%;
   background-color: $ACCENT_ALT;
   box-shadow: $BOX_SHADOW;

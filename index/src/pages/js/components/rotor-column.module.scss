@@ -1,0 +1,13 @@
+@use "sass:color";
+@import "../../colors.scss";
+
+.container {
+  height: calc(($ARTICLE_WIDTH) / 2 - 2rem);
+  width: 4rem;
+  margin: 2rem calc(($ARTICLE_WIDTH) / 4 - 1rem);
+  font-family: $MONOSPACE_FONT;
+  overflow: visible;
+  background-color: $ACCENT_ALT;
+  box-shadow: $BOX_SHADOW;
+  border-radius: $BORDER_RADIUS;
+}

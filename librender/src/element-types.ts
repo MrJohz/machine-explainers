@@ -94,4 +94,19 @@ export type SvgTagNameMap = {
       href: string;
     };
   };
+  rect: {
+    element: SVGRectElement;
+    attrs: {
+      style: string;
+      class: string;
+      id: string;
+      x: number | string;
+      y: number | string;
+      width: number | string;
+      height: number | string;
+      rx: number | string;
+      ry: number | string;
+      fill: string;
+    };
+  };
 };

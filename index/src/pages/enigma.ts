@@ -9,7 +9,9 @@ import {
   indexToChar,
   isAscii,
 } from "./js/ascii-utils";
-import { Histogram, SingleLetterInput, Wheel } from "./js/components";
+import { Histogram, SingleLetterInput } from "./js/components";
+import { RotorWheel } from "./js/components/rotor-wheel";
+import { RotorColumn } from "./js/components/rotor-column";
 
 const TEXT =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
@@ -221,7 +223,8 @@ const TEXT =
 
   const encoder = new EnigmaWheel("ROTOR I", Encoding.ROTOR_I, []);
 
-  const wheel = Wheel(0, encoder);
+  const wheel = RotorWheel(0, encoder);
+  const column = RotorColumn(0, encoder);
   const input = h("input", {
     id: id("input"),
     className: demos.lineInput,
@@ -261,7 +264,10 @@ const TEXT =
   render(
     document.getElementById("single-wheel-demo")!,
     h("div", [
-      h("div", { className: demos.inputRow }, [wheel.element]),
+      h("div", { className: demos.inputRow }, [
+        h("div", { className: demos.inputColumn }, [wheel.element]),
+        h("div", { className: demos.inputColumn }, [column.element]),
+      ]),
       h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [
           h("label", { className: demos.label, htmlFor: input.id }, [
