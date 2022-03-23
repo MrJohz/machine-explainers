@@ -254,10 +254,14 @@ const TEXT =
     output.scrollLeft = output.scrollWidth;
     if (lastLetter === "") {
       wheel.rotate(rotation);
+      column.rotate(rotation);
       wheel.resetHighlight();
+      column.resetHighlight();
     } else {
       wheel.rotate(rotation);
+      column.rotate(rotation);
       wheel.highlightLetter(lastLetter);
+      column.highlightLetter(lastLetter);
     }
   });
 
