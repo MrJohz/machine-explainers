@@ -12,9 +12,21 @@
   border-radius: $BORDER_RADIUS;
 }
 
+.leftLetter.highlighted {
+  transition: color 0.1s, font-size 0.1s, x 0.1s;
+  color: green;
+  font-size: 2rem;
+}
+
+.rightLetter.highlighted {
+  transition: color 0.1s, font-size 0.1s, x 0.1s;
+  color: red;
+  font-size: 2rem;
+}
+
 .link {
   opacity: 0.3;
-  transition: opacity 0.1s, stroke-width 0.1s;
+  transition: opacity 0.1s, stroke-width 0.1s, d 0.4s;
   stroke-width: 1px;
 
   &.highlighted {

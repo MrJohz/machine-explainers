@@ -8,8 +8,8 @@ export function RotorColumn(
   initialRotation: number,
   initialMapping: EnigmaWheel
 ) {
-  const inputTexts: SVGElement[] = [];
-  const outputTexts: SVGElement[] = [];
+  const inputTexts: SVGTextElement[] = [];
+  const outputTexts: SVGTextElement[] = [];
   const links: SVGPathElement[] = [];
 
   let currentRotation = initialRotation;
@@ -23,15 +23,20 @@ export function RotorColumn(
       (initialMapping.encodeForwards(idx, initialRotation) / 26) * 475 - 175;
 
     const textAttrs = {
+      fill: "currentColor",
       "text-anchor": "middle",
       "dominant-baseline": "middle",
     };
     inputTexts.push(
-      hs("text", { x: left, y, ...textAttrs }, [indexToChar(idx)])
+      hs("text", { class: styles.leftLetter, x: left, y, ...textAttrs }, [
+        indexToChar(idx),
+      ])
     );
 
     outputTexts.push(
-      hs("text", { x: right, y, ...textAttrs }, [indexToChar(idx)])
+      hs("text", { class: styles.rightLetter, x: right, y, ...textAttrs }, [
+        indexToChar(idx),
+      ])
     );
 
     links.push(
@@ -53,12 +58,14 @@ export function RotorColumn(
       links,
     ]),
     rotate(position: string | number = 0) {
-      console.log("rottain");
       const index =
         typeof position === "string" ? charToIndex(position) : position;
       if (index == null) return;
 
+      if (currentRotation === index) return;
+
       currentRotation = index;
+      links.push(links.shift()!);
 
       for (let idx = 0; idx < 26; idx++) {
         const left = -30;
@@ -86,16 +93,20 @@ export function RotorColumn(
       for (let idx = 0; idx < 26; idx++) {
         if (idx === index) {
           inputTexts[idx].classList.add(styles.highlighted);
+          inputTexts[idx].setAttribute("x", "-50");
           links[idx].classList.add(styles.highlighted);
         } else {
           inputTexts[idx].classList.remove(styles.highlighted);
+          inputTexts[idx].setAttribute("x", "-30");
           links[idx].classList.remove(styles.highlighted);
         }
 
         if (idx === outputIndex) {
           outputTexts[idx].classList.add(styles.highlighted);
+          outputTexts[idx].setAttribute("x", "150");
         } else {
           outputTexts[idx].classList.remove(styles.highlighted);
+          outputTexts[idx].setAttribute("x", "130");
         }
       }
     },
@@ -104,6 +115,8 @@ export function RotorColumn(
         inputTexts[idx].classList.remove(styles.highlighted);
         links[idx].classList.remove(styles.highlighted);
         outputTexts[idx].classList.remove(styles.highlighted);
+        inputTexts[idx].setAttribute("x", "-30");
+        outputTexts[idx].setAttribute("x", "130");
       }
     },
   };

@@ -250,6 +250,8 @@ const TEXT =
         indexToChar(encoder.encodeForwards(charToIndex(letter)!, rotation))
       );
     }
+
+    // TODO: Debounce this somehow
     output.value = result.join("");
     output.scrollLeft = output.scrollWidth;
     if (lastLetter === "") {
