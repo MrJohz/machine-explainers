@@ -151,12 +151,12 @@
         </p>
         <p>
           The core idea of the machine they came up with is simple: consider a
-          wheel split up into 24 segments. Give each segment an input letter,
+          rotor split up into 24 segments. Give each segment an input letter,
           <code>A</code> to <code>Z</code>, and wire everything up so that when
-          I type "a", it goes to the <code>A</code> segment of the wheel.
+          I type "a", it goes to the <code>A</code> segment of the rotor.
         </p>
         <p>
-          Inside the wheel, you then wire the input of each segment to the
+          Inside the rotor, you then wire the input of each segment to the
           output of a different segment. For example, the <code>A</code> segment
           might carry the signal to the <code>S</code> segment. Now when I type
           "a", it goes into the <code>A</code> segment, and out of the
@@ -164,13 +164,46 @@
         </p>
         <p>
           Here's the trick: now, every time I type a letter, first rotate the
-          wheel by one place. Now, when I type "a", it'll instead go to the "b"
+          rotor by one place. Now, when I type "a", it'll instead go to the "b"
           segment. And if I type "a" again, the signal will go to the "c"
           segment, and so on. But because each of the input segments has a
           different output, the outputs will also be jumbled up.
         </p>
       </div>
       <div id="single-wheel-demo" class="demo"></div>
+      <div class="section">
+        <p>
+          Every time we type a letter, the rotor moves, which means each letter
+          is encrypted with a different scrambling system. Because there are 26
+          segments on the rotor, we essentially have the same effect of having a
+          key that's 26 letters long — except now we don't need to go through
+          that 26-letter key manually, because we've got a machine that does
+          that for us.
+        </p>
+        <p>
+          However, while 26 letters is a start, it's still not impossible to
+          crack if we want to write longer messages. Given the goal of this
+          system was to allow ships in the Dutch East Indies to make complex
+          political decisions with support from headquarters, allowing messages
+          of an arbitrary length was an important goal.
+        </p>
+        <p>
+          The solution to this, Spengler and Van Hengel found, was to string
+          together a block of four rotors. The output of the first rotor becomes
+          the input of the second rotor, and so on, until the message has been
+          scrambled through all four rotors. In addition, the first rotor would
+          change every keystroke, but the second rotor would change only every
+          26th keystroke — after the first rotor had completed a full rotation.
+        </p>
+        <p>
+          With four rotors working together, the total number of different ways
+          that a letter could be scrambled is 26<sup>4</sup> — or to put it
+          another way, a message that was nothing but the letter
+          <code>A</code> wouldn't repeat itself in 456,976 characters. By
+          comparison, the first Harry Potter book has approximately 360,000
+          characters.
+        </p>
+      </div>
       <div class="section">
         <h2>Citations</h2>
         <ul>
