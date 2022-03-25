@@ -224,7 +224,9 @@ const TEXT =
   const encoder = new EnigmaWheel("ROTOR I", Encoding.ROTOR_I, []);
 
   const wheel = RotorWheel(0, encoder);
+  wheel.element.id = id("rotor-wheel");
   const column = RotorColumn(0, encoder);
+  column.element.id = id("rotor-column");
   const input = h("input", {
     id: id("input"),
     className: demos.lineInput,
@@ -271,8 +273,18 @@ const TEXT =
     document.getElementById("single-wheel-demo")!,
     h("div", [
       h("div", { className: demos.inputRow }, [
-        h("div", { className: demos.inputColumn }, [wheel.element]),
-        h("div", { className: demos.inputColumn }, [column.element]),
+        h("div", { className: demos.inputColumn }, [
+          h("label", { className: demos.label, htmlFor: wheel.element.id }, [
+            "Front View",
+          ]),
+          wheel.element,
+        ]),
+        h("div", { className: demos.inputColumn }, [
+          h("label", { className: demos.label, htmlFor: column.element.id }, [
+            "Side View",
+          ]),
+          column.element,
+        ]),
       ]),
       h("div", { className: demos.inputRow }, [
         h("div", { className: demos.inputColumn }, [
@@ -282,8 +294,8 @@ const TEXT =
           input,
         ]),
         h("div", { className: demos.inputColumn }, [
-          h("label", { className: demos.label, htmlFor: input.id }, [
-            "Plaintext",
+          h("label", { className: demos.label, htmlFor: output.id }, [
+            "Cyphertext",
           ]),
           output,
         ]),

@@ -10,6 +10,7 @@
 - [ ] Fix different blacks?
 - [ ] Homepage
 - [ ] 404 Page
+- [ ] Replace flexbox gap property -> grid gap property? -> Just a better hack?
 - Optimisations
   - [ ] multi-key cypher, v. long text input
   - [ ] first rotor demo, reduce number of style updates/fetches

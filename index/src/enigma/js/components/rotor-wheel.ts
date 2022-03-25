@@ -1,6 +1,6 @@
 import { Wheel as EnigmaWheel } from "libenigma";
 import { idGroup, hs } from "librender";
-import { charToIndex } from "../ascii-utils";
+import { charToIndex, indexToChar } from "../ascii-utils";
 import * as styles from "./rotor-wheel.module.scss";
 
 export function RotorWheel(
@@ -128,10 +128,16 @@ export function RotorWheel(
     edgeTexts.push(outerLabel);
   }
 
+  const description = hs("desc", { id: wheelId("description") }, [altText()]);
+
   const diagram = hs(
     "svg",
-    { class: styles.wheel, viewBox: "-200 -200 400 400" },
-    [childGroups, links, edgeTexts, labelPath, label]
+    {
+      class: styles.wheel,
+      viewBox: "-200 -200 400 400",
+      "aria-labelledby": description.id,
+    },
+    [description, childGroups, links, edgeTexts, labelPath, label]
   );
 
   diagram.addEventListener("mouseenter", () => {
@@ -165,6 +171,10 @@ export function RotorWheel(
 
     const rotatedIndex = (index + currentRotation) % 26;
     const outputIndex = initialMapping.encodeForwards(index, currentRotation);
+    description.innerHTML = altText([
+      indexToChar(index),
+      indexToChar(outputIndex),
+    ]);
 
     for (let idx = 0; idx < 26; idx++) {
       if (idx === rotatedIndex) {
@@ -190,6 +200,7 @@ export function RotorWheel(
   }
 
   function resetHighlight() {
+    description.innerHTML = altText();
     for (let idx = 0; idx < 26; idx++) {
       childGroups[idx].classList.remove(styles.highlighted);
       links[idx].classList.remove(styles.highlighted);
@@ -248,4 +259,15 @@ function wheelPositions(letterIndex: number) {
       y: Math.cos((Math.PI * 2 * angleRight) / 360),
     },
   };
+}
+
+function altText(connection?: [string, string]): string {
+  let resp =
+    "A representation of the side view of an Enigma rotor, showing how each input letter is connected to a different output letter.";
+
+  if (connection) {
+    resp += `  Currently, the input letter ${connection[0]} is powered, connecting to the output letter ${connection[1]}`;
+  }
+
+  return resp;
 }

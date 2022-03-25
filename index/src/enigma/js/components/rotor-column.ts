@@ -1,5 +1,5 @@
 import { Wheel as EnigmaWheel } from "libenigma";
-import { hs } from "librender";
+import { hs, idGroup } from "librender";
 import { charToIndex, indexToChar } from "../ascii-utils";
 
 import * as styles from "./rotor-column.module.scss";
@@ -8,6 +8,7 @@ export function RotorColumn(
   initialRotation: number,
   initialMapping: EnigmaWheel
 ) {
+  const id = idGroup("rotor-column");
   const inputTexts: SVGTextElement[] = [];
   const outputTexts: SVGTextElement[] = [];
   const links: SVGPathElement[] = [];
@@ -51,12 +52,18 @@ export function RotorColumn(
     );
   }
 
+  const description = hs("desc", { id: id("description") }, [altText()]);
+
   return {
-    element: hs("svg", { class: styles.container, viewBox: "0 0 100 100" }, [
-      inputTexts,
-      outputTexts,
-      links,
-    ]),
+    element: hs(
+      "svg",
+      {
+        class: styles.container,
+        viewBox: "0 0 100 100",
+        "aria-labelledby": description.id,
+      },
+      [description, inputTexts, outputTexts, links]
+    ),
     rotate(position: string | number = 0) {
       const index =
         typeof position === "string" ? charToIndex(position) : position;
@@ -64,6 +71,8 @@ export function RotorColumn(
 
       if (currentRotation === index) return;
 
+      // TODO: this "link shift" thing only works in one direction, and not always very well
+      // Fix me!
       currentRotation = index;
       links.push(links.shift()!);
 
@@ -89,6 +98,7 @@ export function RotorColumn(
       if (index == null) return;
 
       const outputIndex = initialMapping.encodeForwards(index, currentRotation);
+      description.innerHTML = altText([letter, indexToChar(outputIndex)]);
 
       for (let idx = 0; idx < 26; idx++) {
         if (idx === index) {
@@ -111,6 +121,7 @@ export function RotorColumn(
       }
     },
     resetHighlight() {
+      description.innerHTML = altText();
       for (let idx = 0; idx < 26; idx++) {
         inputTexts[idx].classList.remove(styles.highlighted);
         links[idx].classList.remove(styles.highlighted);
@@ -120,4 +131,15 @@ export function RotorColumn(
       }
     },
   };
+}
+
+function altText(connection?: [string, string]): string {
+  let resp =
+    "A representation of the side view of an Enigma rotor, showing how each input letter is connected to a different output letter.";
+
+  if (connection) {
+    resp += `  Currently, the input letter ${connection[0]} is powered, connecting to the output letter ${connection[1]}`;
+  }
+
+  return resp;
 }

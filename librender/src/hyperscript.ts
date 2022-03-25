@@ -4,7 +4,7 @@ export type Child = null | string | HTMLElement | SVGElement | Child[];
 
 export type SvgPropType<T extends keyof SvgTagNameMap> = {
   [K in keyof SvgTagNameMap[T]["attrs"]]?: SvgTagNameMap[T]["attrs"][K];
-};
+} & Partial<AriaAttributes>;
 
 export function hs<T extends keyof SvgTagNameMap>(
   name: T,

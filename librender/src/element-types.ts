@@ -8,6 +8,7 @@ export type SvgTagNameMap = {
   svg: {
     element: SVGSVGElement;
     attrs: {
+      alt: string;
       style: string;
       class: string;
       id: string;
@@ -107,6 +108,14 @@ export type SvgTagNameMap = {
       rx: number | string;
       ry: number | string;
       fill: string;
+    };
+  };
+  desc: {
+    element: SVGDescElement;
+    attrs: {
+      style: string;
+      class: string;
+      id: string;
     };
   };
 };
